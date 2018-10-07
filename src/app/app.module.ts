@@ -4,7 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { GroupsPage } from '../pages/groups/groups';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 
@@ -18,13 +18,13 @@ import { FirebaseConfig } from '../config';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 
 import { AuthService } from '../services/auth.service';
-import {GooglePlus } from '@ionic-native/google-plus'
-
+import { GooglePlus } from '@ionic-native/google-plus'
+import { Facebook } from '@ionic-native/facebook'
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
+    GroupsPage,
     LoginPage,
     SignupPage
   ],
@@ -38,7 +38,7 @@ import {GooglePlus } from '@ionic-native/google-plus'
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
+    GroupsPage,
     LoginPage,
     SignupPage
   ],
@@ -49,6 +49,7 @@ import {GooglePlus } from '@ionic-native/google-plus'
     AngularFireAuth,
     AuthService,
     GooglePlus,
+    Facebook,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
