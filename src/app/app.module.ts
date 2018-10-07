@@ -18,6 +18,7 @@ import { FirebaseConfig } from '../config';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 
 import { AuthService } from '../services/auth.service';
+import {GooglePlus } from '@ionic-native/google-plus'
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { AuthService } from '../services/auth.service';
     SplashScreen,
     AngularFireAuth,
     AuthService,
+    GooglePlus,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

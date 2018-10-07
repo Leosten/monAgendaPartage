@@ -45,4 +45,15 @@ export class LoginPage {
     goToSignUp(){
         this.navCtrl.push(SignupPage);
     }
+
+    loginWithGoogle() {
+        this.auth.signInWithGoogle().then(() =>
+            this.navCtrl.setRoot(HomePage),
+                error => console.log(error.message)
+        );
+    }
+
+    loginWithFacebook() {
+
+    }
 }
