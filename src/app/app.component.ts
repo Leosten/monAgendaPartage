@@ -4,7 +4,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { GroupsPage } from '../pages/groups/groups';
+import { LoginPage } from '../pages/login/login';
+
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -16,13 +20,17 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    private auth: AuthService
+  ) {
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'Mon agenda', component: HomePage },
+      { title: 'Mes groupes', component: GroupsPage }
     ];
 
   }
@@ -34,11 +42,30 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-  }
+
+    this.auth.afAuth.authState.subscribe(
+      user => {
+        if (user) {
+          this.rootPage = HomePage;
+        } else {
+          this.rootPage = LoginPage;
+        }
+      },
+      () => {
+        this.rootPage = LoginPage;
+      }
+    );
+    }
 
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+
+  login() {
+    this.auth.signOut();
+    this.nav.setRoot(LoginPage);
+  }
+
 }
