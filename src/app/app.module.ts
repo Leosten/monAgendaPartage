@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { GroupsPage } from '../pages/groups/groups';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
+import { SettingsPage } from '../pages/settings/settings';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -26,7 +27,8 @@ import { Facebook } from '@ionic-native/facebook'
     HomePage,
     GroupsPage,
     LoginPage,
-    SignupPage
+    SignupPage,
+    SettingsPage
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,8 @@ import { Facebook } from '@ionic-native/facebook'
     HomePage,
     GroupsPage,
     LoginPage,
-    SignupPage
+    SignupPage,
+    SettingsPage
   ],
   providers: [
     Firebase,
