@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "329653030004",
+    "firebase_url": "https://mon-agenda-f3718.firebaseio.com",
+    "project_id": "mon-agenda-f3718",
+    "storage_bucket": "mon-agenda-f3718.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329653030004:android:92b388112f2f7374",
+        "android_client_info": {
+          "package_name": "monagendapartage.package"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329653030004-9ep5tf064pn8hmt1t2gjknj5ofik049r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "monagendapartage.package",
+            "certificate_hash": "194fe3f0ab3e846894d6712c916ded71ada1fec6"
+          }
+        },
+        {
+          "client_id": "329653030004-qa5j6budfc28sqrdrepaeo9sffklq0d2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYyIWJweruuG1Da0jYVLW9mq035gXSIAY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329653030004-qa5j6budfc28sqrdrepaeo9sffklq0d2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
