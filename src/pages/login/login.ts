@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AuthService } from '../../services/auth.service';
 import { SignupPage } from '../signup/signup';
 
+@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -54,6 +55,9 @@ export class LoginPage {
     }
 
     loginWithFacebook() {
-
+        this.auth.signInWithFacebook().then(() =>
+            this.navCtrl.setRoot(HomePage),
+                error => console.log(error.message)
+        );
     }
 }

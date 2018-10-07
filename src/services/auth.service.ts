@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { GooglePlus } from '@ionic-native/google-plus';
+import { Facebook } from '@ionic-native/facebook'
 
 @Injectable()
 export class AuthService {
@@ -10,6 +11,7 @@ export class AuthService {
     constructor(
         public afAuth: AngularFireAuth,
         public googlePlus: GooglePlus,
+        public facebook: Facebook
     ) {
         afAuth.authState.subscribe(user => {
             this.user = user;
@@ -36,6 +38,24 @@ export class AuthService {
             }, err => {
                 console.error("Error: ", err)
                 reject(err);
+            });
+        });
+    }
+
+    signInWithFacebook(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.facebook.login(['email']).then(response => {
+                const facebookCredential = firebase.auth.FacebookAuthProvider.credential(response.authResponse.accessToken);
+
+                firebase.auth().signInWithCredential(facebookCredential).then( success => {
+                    console.log("Firebase success: " + JSON.stringify(success));
+                    resolve(success);
+                }).catch((error) => {
+                    console.log(error)
+                    reject(error);
+                });
+            }).catch((error) => {
+                reject(error)
             });
         });
     }

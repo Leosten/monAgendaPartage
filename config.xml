@@ -89,4 +89,9 @@
         <variable name="WEB_APPLICATION_CLIENT_ID" value="329653030004-qa5j6budfc28sqrdrepaeo9sffklq0d2.apps.googleusercontent.com" />
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.329653030004-cta6l793k4o2acvi8fp6ti015h8vcs19" />
     </plugin>
+    <plugin name="cordova-plugin-facebook4" spec="^3.0.0">
+        <variable name="APP_ID" value="323886285056528" />
+        <variable name="APP_NAME" value="monagendapartage" />
+        <variable name="FACEBOOK_ANDROID_SDK_VERSION" value="4.36.0" />
+    </plugin>
 </widget>
