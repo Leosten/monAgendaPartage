@@ -67,7 +67,7 @@ export class LoginPage {
     }
 
     searchExistingUser(user_uid) {
-        let user = this.usersService.searchUser(user_uid).valueChanges();
+        let user = this.usersService.searchUserByUid(user_uid).valueChanges();
         if (user === null) {
             let new_user = {
                 uid: user_uid

@@ -40,7 +40,9 @@ export class SignupPage {
     // Lorsque je viens de m'inscrire, je cree un user
     createNewUser(user_uid) {
         let new_user = {
-            uid: user_uid
+            uid: user_uid,
+            email: this.form.value.email,
+            display_name: ""
         }
 
         this.usersService.addUser(new_user).then(result => {

@@ -5,6 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { GroupsPage } from '../pages/groups/groups';
+import { GroupDetailPage } from '../pages/group-detail/group-detail';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { SettingsPage } from '../pages/settings/settings';
@@ -31,6 +32,7 @@ import { Facebook } from '@ionic-native/facebook'
     MyApp,
     HomePage,
     GroupsPage,
+    GroupDetailPage,
     LoginPage,
     SignupPage,
     SettingsPage,
@@ -47,6 +49,7 @@ import { Facebook } from '@ionic-native/facebook'
     MyApp,
     HomePage,
     GroupsPage,
+    GroupDetailPage,
     LoginPage,
     SignupPage,
     SettingsPage,

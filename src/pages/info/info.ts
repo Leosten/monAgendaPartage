@@ -17,7 +17,7 @@ export class InfoPage {
       fb: FormBuilder
     ) {
         this.info_form = fb.group({
-            displayName: [''],
+            displayName: ['', Validators.compose([Validators.required])]
         });
   }
 

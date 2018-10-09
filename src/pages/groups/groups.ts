@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { GroupsService } from '../../services/groups.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { GroupDetailPage } from '../group-detail/group-detail';
 
 @Component({
   selector: 'page-groups',
@@ -33,11 +34,9 @@ export class GroupsPage {
     }
 
     groupsDetail(group) {
-        console.log(group);
-    // // That's right, we're pushing to ourselves!
-    // this.navCtrl.push(GroupsPage, {
-    //   item: item
-    // });
+        this.navCtrl.push(GroupDetailPage, {
+            group: group
+        });
     }
 
     newGroup() {

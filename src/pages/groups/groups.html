@@ -14,11 +14,11 @@
         <ion-input *ngIf="add_group === true" type="text" formControlName="name" placeholder="Nom du groupe"></ion-input>
       </ion-item>
     </form>
-  <ion-list>
-    <button ion-item *ngFor="let group of (groups | async)" (click)="groupsDetail(group)">
-      {{ group.name }}
-    </button>
-  </ion-list>
+    <ion-list>
+      <button ion-item *ngFor="let group of (groups | async)" (click)="groupsDetail(group)">
+        {{ group.name }}
+      </button>
+    </ion-list>
   <!-- <div *ngIf="selectedItem" padding>
     You navigated here from <b>{{selectedItem.title}}</b>
   </div> -->
