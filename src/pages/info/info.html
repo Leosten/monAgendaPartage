@@ -1,0 +1,18 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Mes Infos</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <form (submit)="editInfo()" [formGroup]="info_form">
+      <ion-item>
+        <ion-input type="text" formControlName="displayName" placeholder="Pseudonyme"></ion-input>
+      </ion-item>
+    </form>
+    <button ion-button>Continuer</button>
+</ion-content>

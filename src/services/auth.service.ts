@@ -11,15 +11,21 @@ export class AuthService {
     constructor(
         public afAuth: AngularFireAuth,
         public googlePlus: GooglePlus,
-        public facebook: Facebook
+        public facebook: Facebook,
     ) {
         afAuth.authState.subscribe(user => {
             this.user = user;
         });
     }
 
-    signInWithEmail(credentials) {
-        return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
+    signInWithEmail(credentials): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password).then(res => {
+                resolve(res);
+            }, err => {
+                reject(err);
+            });
+        });
     }
 
     signInWithGoogle(): Promise<any> {
@@ -30,8 +36,7 @@ export class AuthService {
             }).then(res => {
                 const googleCredential = firebase.auth.GoogleAuthProvider.credential(res.idToken);
 
-                firebase.auth().signInWithCredential(googleCredential)
-                .then(response => {
+                firebase.auth().signInWithCredential(googleCredential).then(response => {
                     console.log("Firebase success: " + JSON.stringify(response));
                     resolve(response)
                 });
@@ -61,6 +66,7 @@ export class AuthService {
     }
 
     signUp(credentials) {
+
         return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
     }
 
