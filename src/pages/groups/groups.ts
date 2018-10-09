@@ -1,37 +1,55 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { GroupsService } from '../../services/groups.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'page-groups',
   templateUrl: 'groups.html'
 })
 export class GroupsPage {
-  selectedItem: any;
-  icons: string[];
-  items: Array<{title: string, note: string, icon: string}>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
+    items: any;
+    add_group: any;
+    add_group_input;
+    groups: any;
+    user: any;
 
-    // Let's populate this page with some filler content for funzies
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
-
-    this.items = [];
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
+    constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public groupsService: GroupsService,
+    public formBuilder: FormBuilder,
+    public afAuth: AngularFireAuth,
+    ) {
+        this.add_group_input = formBuilder.group({
+            name: ['', Validators.required]
+        });
+        this.afAuth.authState.subscribe(user => {
+            this.user = user;
+            this.groups = this.groupsService.getGroups(this.user.uid).valueChanges();
+        });
     }
-  }
 
-  itemTapped(event, item) {
-    // That's right, we're pushing to ourselves!
-    this.navCtrl.push(GroupsPage, {
-      item: item
-    });
-  }
+    groupsDetail(group) {
+        console.log(group);
+    // // That's right, we're pushing to ourselves!
+    // this.navCtrl.push(GroupsPage, {
+    //   item: item
+    // });
+    }
+
+    newGroup() {
+        let new_group = {
+            name: this.add_group_input.value.name,
+            creator: this.user.uid
+        };
+
+        this.groupsService.addGroup(new_group).then(result => {
+            console.log("successfully added new group");
+        }, err => {
+            console.log("error: " + err);
+        });
+    }
 }

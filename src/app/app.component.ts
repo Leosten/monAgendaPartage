@@ -6,7 +6,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { GroupsPage } from '../pages/groups/groups';
 import { LoginPage } from '../pages/login/login';
+import { EventsPage } from '../pages/events/events';
 import { SettingsPage } from '../pages/settings/settings';
+import { InfoPage } from '../pages/info/info';
 
 import { AuthService } from '../services/auth.service';
 
@@ -31,10 +33,11 @@ export class MyApp {
 
     this.pages = [
       { title: 'Mon agenda', component: HomePage },
-      { title: 'Mes groupes', component: GroupsPage }
+      { title: 'Mes événements', component: EventsPage },
+      { title: 'Mes groupes', component: GroupsPage },
+      { title: 'Mes infos', component: InfoPage },
       { title: 'Paramètres', component: SettingsPage }
     ];
-
   }
 
   initializeApp() {
