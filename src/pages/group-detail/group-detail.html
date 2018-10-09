@@ -3,22 +3,43 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ group_name }}</ion-title>
+    <ion-title>{{ group.name }}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-    <button ion-button full (click)="add_group = true">+ Ajouter un groupe</button>
-    <form (submit)="newGroup()" [formGroup]="add_group_input">
-      <ion-item>
-        <ion-input *ngIf="add_group === true" type="text" formControlName="name" placeholder="Nom du groupe"></ion-input>
-      </ion-item>
-    </form>
+    <ion-card>
+<!--         <ion-card-header>
+            Card Header
+        </ion-card-header> -->
+        <ion-card-content>
+            {{group.description}}
+        </ion-card-content>
+    </ion-card>
+
+
+<ion-card>
+  <ion-card-header>
+    <ion-item>
+    <ion-label>Chercher un utilisateur</ion-label>
+        <ion-input [(ngModel)]="search_user" type="text" placeholder="Pseudo, email ..." (keyup.enter)="searchUsers(search_user)"></ion-input>
+    </ion-item>
+  </ion-card-header>
+
   <ion-list>
+    <button ion-item ion-item *ngFor="let usr of found_users" (click)="addUserToGroup()">
+      <ion-icon name="md-person-add" item-start></ion-icon>
+      {{usr.display_name}} | {{usr.email}}
+    </button>
+  </ion-list>
+</ion-card>
+
+
+<!--   <ion-list>
     <button ion-item *ngFor="let group of (groups | async)" (click)="groupsDetail(group)">
       {{ group.name }}
     </button>
-  </ion-list>
+  </ion-list> -->
   <!-- <div *ngIf="selectedItem" padding>
     You navigated here from <b>{{selectedItem.title}}</b>
   </div> -->

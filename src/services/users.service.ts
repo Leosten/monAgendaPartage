@@ -25,11 +25,17 @@ export class UsersService {
         this.users = this.afDb.list(this.dbPath);
     }
 
-    searchUser(user_id) {
+    searchUserByUid(user_id) {
         return this.afDb.list(this.dbPath, ref => {
             return ref.orderByChild("uid").equalTo(user_id);
         });
     };
+
+    searchUserByQuery(field, query) {
+        return this.afDb.list(this.dbPath, ref => {
+            return ref.orderByChild(field).equalTo(query);
+        });
+    }
 
     addUser(new_user) {
         return this.users.push(new_user);
