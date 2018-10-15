@@ -24,6 +24,7 @@ import { FirebaseConfig } from '../config';
 import { AuthService } from '../services/auth.service';
 import { GroupsService } from '../services/groups.service';
 import { UsersService } from '../services/users.service';
+import { EventsService } from '../services/events.service';
 
 import { GooglePlus } from '@ionic-native/google-plus'
 import { Facebook } from '@ionic-native/facebook'
@@ -64,6 +65,7 @@ import { Facebook } from '@ionic-native/facebook'
     AuthService,
     GroupsService,
     UsersService,
+    EventsService,
     AngularFireDatabase,
     GooglePlus,
     Facebook,

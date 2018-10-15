@@ -31,18 +31,17 @@ export class GroupsPage {
 
         this.afAuth.authState.subscribe(user => {
             this.user = user;
-            this.groupsService.getGroups(this.user.uid).snapshotChanges().pipe(
-                map(actions =>
-                    actions.map(a => ({ key: a.key, ...a.payload.val() }))
-                )
-            ).subscribe(groups => {
-                this.groups = groups.map(group => group);
-            })
+            this.refreshGroups();
+        });
+    }
+
+    refreshGroups() {
+        this.groupsService.getMyGroups(this.user.uid).then(res => {
+            this.groups = res;
         });
     }
 
     groupsDetail(group) {
-        console.log(group);
         this.navCtrl.push(GroupDetailPage, {
             group: group
         });
@@ -58,12 +57,13 @@ export class GroupsPage {
 
         this.groupsService.addGroup(new_group).then(result => {
             console.log("successfully added new group");
+            this.refreshGroups();
         }, err => {
             console.log("error: " + err);
         });
     }
 
-    ionViewDidLeave() {
-
+    ionViewWillEnter() {
+        this.refreshGroups();
     }
 }
