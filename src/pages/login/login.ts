@@ -3,7 +3,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IonicPage, NavController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AuthService } from '../../services/auth.service';
+import { UsersService } from '../../services/users.service';
 import { SignupPage } from '../signup/signup';
+import { InfoPage } from '../info/info';
+import * as firebase from 'firebase/app';
 
 @IonicPage()
 @Component({
@@ -17,6 +20,7 @@ export class LoginPage {
     constructor(
         private navCtrl: NavController,
         private auth: AuthService,
+        private usersService: UsersService,
         fb: FormBuilder
     ) {
         this.loginForm = fb.group({
@@ -48,16 +52,35 @@ export class LoginPage {
     }
 
     loginWithGoogle() {
-        this.auth.signInWithGoogle().then(() =>
-            this.navCtrl.setRoot(HomePage),
+        this.auth.signInWithGoogle().then((user: firebase.User) =>
+            this.searchExistingUser(user.uid),
                 error => console.log(error.message)
         );
     }
 
     loginWithFacebook() {
-        this.auth.signInWithFacebook().then(() =>
-            this.navCtrl.setRoot(HomePage),
+        this.auth.signInWithFacebook().then((user: firebase.User) =>
+            // this.navCtrl.setRoot(HomePage),
+            this.searchExistingUser(user.uid),
                 error => console.log(error.message)
         );
     }
+
+    searchExistingUser(user_uid) {
+        let user = this.usersService.searchUserByUid(user_uid).valueChanges();
+        if (user === null) {
+            let new_user = {
+                uid: user_uid
+            }
+            this.usersService.addUser(new_user).then(result => {
+                this.navCtrl.setRoot(InfoPage);
+                console.log("successfully added new user");
+            }, err => {
+                console.log("error: " + err);
+            });
+        } else {
+            this.navCtrl.setRoot(HomePage);
+        }
+    }
+
 }

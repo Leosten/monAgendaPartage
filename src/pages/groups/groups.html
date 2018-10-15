@@ -8,16 +8,18 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-start></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-end>
-        {{item.note}}
-      </div>
-    </button>
-  </ion-list>
-  <div *ngIf="selectedItem" padding>
+    <button ion-button full (click)="add_group = !add_group">+ Ajouter un groupe</button>
+    <form (submit)="newGroup()" [formGroup]="add_group_input">
+      <ion-item>
+        <ion-input *ngIf="add_group === true" type="text" formControlName="name" placeholder="Nom du groupe"></ion-input>
+      </ion-item>
+    </form>
+    <ion-list>
+      <ion-item ion-item *ngFor="let group of groups" detail-push (click)="groupsDetail(group)">
+          {{ group.name }}
+      </ion-item>
+    </ion-list>
+  <!-- <div *ngIf="selectedItem" padding>
     You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
+  </div> -->
 </ion-content>
