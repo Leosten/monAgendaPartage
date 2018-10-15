@@ -11,6 +11,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { SettingsPage } from '../pages/settings/settings';
 import { EventsPage } from '../pages/events/events';
 import { InfoPage } from '../pages/info/info';
+import { EventModalPage } from '../pages/events/event-modal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -38,6 +39,7 @@ import { Facebook } from '@ionic-native/facebook'
     SignupPage,
     SettingsPage,
     EventsPage,
+    EventModalPage,
     InfoPage
   ],
   imports: [
@@ -55,6 +57,7 @@ import { Facebook } from '@ionic-native/facebook'
     SignupPage,
     SettingsPage,
     EventsPage,
+    EventModalPage,
     InfoPage
   ],
   providers: [

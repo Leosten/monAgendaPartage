@@ -23,25 +23,35 @@ export class EventsService {
         afAuth.authState.subscribe(user => {
             this.user = user;
         });
-        this.dbPath = '/user-events';
+        this.dbPath = '/group-events';
         this.events = this.afDb.list(this.dbPath);
     }
 
-    getMyEvents(user_id) {
-        let events = [];
-        this.groupsService.getMyGroups(user_id).then(res => {
-            for(let grp of res) {
-                this.getEvents(grp.key).then(evnts => {
-                    this.events.push(evnts);
-                });
-            }
-        });
+    getMyEvents() : Promise<any> {
+        return new Promise((resolve, reject) => {
+            const eventsPromises = [];
 
-        return events;
-        // return this.afDb.list(this.dbPath, ref => {
-        //     return ref.orderByChild("user_uid").equalTo(user_id);
-        // });
-    };
+            this.groupsService.getMyGroups().then(res => {
+                for (let grp of res) {
+                    eventsPromises.push(this.getEvents(grp.key));
+                }
+
+                Promise.all(eventsPromises)
+                .then(evnts => {
+                    let events_res = [];
+                    for(let ev of evnts) {
+                        for(let v of ev) {
+                            events_res.push(v);
+                        }
+                    }
+                    resolve(events_res);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+            });
+        });
+    }
 
     getEvents(group_id) : Promise<any> {
         return new Promise((resolve, reject) => {
@@ -54,13 +64,27 @@ export class EventsService {
                     actions.map(a => ({ key: a.key, ...a.payload.val() }))
                 )
             ).subscribe(events_res => {
-                events = events_res.map(group => group);
-                resolve(events);
+                resolve(events_res);
             });
         });
     }
 
-    addGroup(evnt: any) {
-        return this.events.push(evnt);
+    addNewEvent(grps: Array<String>, evnt: any) {
+        let data: any;
+        const promises = [];
+
+        for(let grp of grps) {
+            data = {
+                group_id: grp,
+                event: evnt
+            };
+            promises.push(this.events.push(data));
+        }
+
+        Promise.all(promises).then(evnts => {
+            console.log("all events added");
+        }).catch(err => {
+            // handle error
+        });
     }
 }

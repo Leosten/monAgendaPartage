@@ -1,24 +1,36 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the EventsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { GroupsService } from '../../services/groups.service';
+import { EventsService } from '../../services/events.service';
+import { ModalController } from 'ionic-angular';
+import { EventModalPage } from './event-modal';
 
 @IonicPage()
 @Component({
   selector: 'page-events',
   templateUrl: 'events.html',
 })
+
 export class EventsPage {
+    my_events: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+    constructor(
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        public modalCtrl: ModalController,
+        public eventsService: EventsService
+    ) {
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EventsPage');
-  }
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad EventsPage');
+        this.eventsService.getMyEvents().then(res => {
+            this.my_events = res;
+        });
+    }
+
+    openNewEventModal() {
+        let profileModal = this.modalCtrl.create(EventModalPage);
+        profileModal.present();
+    }
 }
