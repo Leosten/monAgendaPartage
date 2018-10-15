@@ -5,8 +5,12 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { GroupsPage } from '../pages/groups/groups';
+import { GroupDetailPage } from '../pages/group-detail/group-detail';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
+import { SettingsPage } from '../pages/settings/settings';
+import { EventsPage } from '../pages/events/events';
+import { InfoPage } from '../pages/info/info';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -14,10 +18,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Firebase } from '@ionic-native/firebase';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseConfig } from '../config';
-import { NgxErrorsModule } from '@ultimate/ngxerrors';
 
 import { AuthService } from '../services/auth.service';
+import { GroupsService } from '../services/groups.service';
+import { UsersService } from '../services/users.service';
+
 import { GooglePlus } from '@ionic-native/google-plus'
 import { Facebook } from '@ionic-native/facebook'
 @NgModule({
@@ -25,22 +32,29 @@ import { Facebook } from '@ionic-native/facebook'
     MyApp,
     HomePage,
     GroupsPage,
+    GroupDetailPage,
     LoginPage,
-    SignupPage
+    SignupPage,
+    SettingsPage,
+    EventsPage,
+    InfoPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FirebaseConfig.fire),
-    NgxErrorsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
     GroupsPage,
+    GroupDetailPage,
     LoginPage,
-    SignupPage
+    SignupPage,
+    SettingsPage,
+    EventsPage,
+    InfoPage
   ],
   providers: [
     Firebase,
@@ -48,6 +62,9 @@ import { Facebook } from '@ionic-native/facebook'
     SplashScreen,
     AngularFireAuth,
     AuthService,
+    GroupsService,
+    UsersService,
+    AngularFireDatabase,
     GooglePlus,
     Facebook,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
