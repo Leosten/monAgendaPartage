@@ -6,9 +6,9 @@ import { Facebook } from '@ionic-native/facebook'
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 
 @Injectable()
-export class GroupsService {
+export class EventsService {
     private user: firebase.User;
-    groups: AngularFireList<any[]>;
+    events: AngularFireList<any[]>;
     dbPath: any;
     user_id: any;
 
@@ -20,31 +20,18 @@ export class GroupsService {
     ) {
         afAuth.authState.subscribe(user => {
             this.user = user;
+            // console.log(this.user);
         });
-        this.dbPath = '/user-groups';
-        this.groups = this.afDb.list(this.dbPath);
+        // this.user_id = this.afAuth.auth.currentUser.uid;
+        // console.log(this.user_id);
+        this.dbPath = '/user-events';
+        this.events = this.afDb.list(this.dbPath);
+        // this.groups = this.afDb.list(this.dbPath);
     }
 
-    getGroups(user_id) {
+    getEvents(user_id) {
         return this.afDb.list(this.dbPath, ref => {
-            return ref.orderByChild("creator").equalTo(user_id);
+            return ref.orderByChild("user_uid").equalTo(user_id);
         });
     };
-
-    addGroup(group: any) {
-        return this.groups.push(group);
-    }
-
-    removeGroup(group: any) {
-        return this.afDb.object(this.dbPath + '/' + group.key).remove();
-    }
-
-    searchGroup(name) {
-        this.afDb.list(this.dbPath, ref => {
-            return ref.orderByChild("name").equalTo(name); });
-    }
-
-    addUserToGroup(group, user) {
-
-    }
 }
