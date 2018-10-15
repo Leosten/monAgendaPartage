@@ -26,23 +26,21 @@ export class GroupsService {
         this.groups = this.afDb.list(this.dbPath);
     }
 
-    getMyGroups(user_id) : Promise<any> {
+    getMyGroups() : Promise<any> {
         return new Promise((resolve, reject) => {
             let groups = [];
 
             this.afDb.list(this.dbPath, ref => {
-                return ref.orderByChild("creator").equalTo(user_id);
+                return ref.orderByChild("creator").equalTo(this.user.uid);
             }).snapshotChanges().pipe(
                 map(actions =>
                     actions.map(a => ({ key: a.key, ...a.payload.val() }))
                 )
             ).subscribe(groups_res => {
                 groups = groups_res.map(group => group);
-            // console.log(groups);
                 resolve(groups);
             });
         });
-        // return groups;
     }
 
     addGroup(group: any) {

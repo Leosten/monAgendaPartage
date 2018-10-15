@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Description
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="addNewEventConfirm()">
+      <ion-item>
+        <ion-label>Nouvel événement</ion-label>
+        <ion-input type="text" [(ngModel)]="event.name" name="title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Description</ion-label>
+        <ion-textarea [(ngModel)]="event.description" name="description"></ion-textarea>
+      </ion-item>
+      <ion-item>
+      <ion-label>Groupes</ion-label>
+        <ion-select [(ngModel)]="selected_groups" name="selected_groups" submitText="OK" cancelText="Annuler" multiple="true">
+          <ion-option *ngFor="let grp of groups" value="{{grp.key}}">{{grp.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Date</ion-label>
+        <ion-datetime displayFormat="MM/DD/YYYY" name="date" [(ngModel)]="event.date"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Heure de début</ion-label>
+        <ion-datetime displayFormat="HH:MM" name="start" [(ngModel)]="event.start"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Heure de fin</ion-label>
+        <ion-datetime displayFormat="HH:MM" name="end" [(ngModel)]="event.end"></ion-datetime>
+      </ion-item>
+      <button ion-button type="submit" block>Créer un nouvel événement</button>
+    </form>
+</ion-content>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { GroupsService } from '../../services/groups.service';
+import { UsersService } from '../../services/users.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { GroupDetailPage } from '../group-detail/group-detail';
@@ -22,21 +23,17 @@ export class GroupsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public groupsService: GroupsService,
+    public usersService: UsersService,
     public formBuilder: FormBuilder,
     public afAuth: AngularFireAuth,
     ) {
         this.add_group_input = formBuilder.group({
             name: ['', Validators.required]
         });
-
-        this.afAuth.authState.subscribe(user => {
-            this.user = user;
-            this.refreshGroups();
-        });
     }
 
     refreshGroups() {
-        this.groupsService.getMyGroups(this.user.uid).then(res => {
+        this.groupsService.getMyGroups().then(res => {
             this.groups = res;
         });
     }
@@ -48,6 +45,8 @@ export class GroupsPage {
     }
 
     newGroup() {
+        this.user = this.usersService.getCurrentUser();
+
         let new_group = {
             name: this.add_group_input.value.name,
             creator: this.user.uid,
@@ -65,5 +64,9 @@ export class GroupsPage {
 
     ionViewWillEnter() {
         this.refreshGroups();
+    }
+
+    ionViewDidLeave() {
+
     }
 }
