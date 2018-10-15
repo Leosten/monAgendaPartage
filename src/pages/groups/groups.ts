@@ -4,6 +4,7 @@ import { GroupsService } from '../../services/groups.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { GroupDetailPage } from '../group-detail/group-detail';
+import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'page-groups',
@@ -27,13 +28,21 @@ export class GroupsPage {
         this.add_group_input = formBuilder.group({
             name: ['', Validators.required]
         });
+
         this.afAuth.authState.subscribe(user => {
             this.user = user;
-            this.groups = this.groupsService.getGroups(this.user.uid).valueChanges();
+            this.groupsService.getGroups(this.user.uid).snapshotChanges().pipe(
+                map(actions =>
+                    actions.map(a => ({ key: a.key, ...a.payload.val() }))
+                )
+            ).subscribe(groups => {
+                this.groups = groups.map(group => group);
+            })
         });
     }
 
     groupsDetail(group) {
+        console.log(group);
         this.navCtrl.push(GroupDetailPage, {
             group: group
         });
@@ -42,7 +51,9 @@ export class GroupsPage {
     newGroup() {
         let new_group = {
             name: this.add_group_input.value.name,
-            creator: this.user.uid
+            creator: this.user.uid,
+            user_id: this.user.uid,
+            status: 'accepted'
         };
 
         this.groupsService.addGroup(new_group).then(result => {
@@ -50,5 +61,9 @@ export class GroupsPage {
         }, err => {
             console.log("error: " + err);
         });
+    }
+
+    ionViewDidLeave() {
+
     }
 }

@@ -29,7 +29,7 @@
   <ion-list>
     <button ion-item ion-item *ngFor="let usr of found_users" (click)="addUserToGroup()">
       <ion-icon name="md-person-add" item-start></ion-icon>
-      {{usr.display_name}} | {{usr.email}}
+      {{(usr.display_name || 'Pas de pseudo')}} | {{usr.email}}
     </button>
   </ion-list>
 </ion-card>
@@ -44,3 +44,8 @@
     You navigated here from <b>{{selectedItem.title}}</b>
   </div> -->
 </ion-content>
+
+<ion-footer>
+     <button color="danger" ion-button full (click)="removeGroupConfirm()">Supprimer un groupe</button>
+</ion-footer>
+

@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UsersService } from '../../services/users.service';
-
-/**
- * Generated class for the GroupDetailPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { GroupsService } from '../../services/groups.service';
+import { AlertController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -22,7 +17,9 @@ export class GroupDetailPage {
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
-        private usersService: UsersService
+        private usersService: UsersService,
+        public groupsService: GroupsService,
+        private alertCtrl: AlertController
     ) {
         this.group = this.navParams.get('group');
     }
@@ -39,5 +36,36 @@ export class GroupDetailPage {
 
     addUserToGroup() {
 
+    }
+
+    removeGroup() {
+        this.groupsService.removeGroup(this.group).then(result => {
+            console.log("successfully removed group");
+        }, err => {
+            console.log("error: " + err);
+        });
+    }
+
+    removeGroupConfirm() {
+        let alert = this.alertCtrl.create({
+            title: 'Supprimer ce groupe?',
+            message: this.group.name,
+            buttons: [
+              {
+                text: 'Annuler',
+                role: 'cancel',
+                handler: () => {
+                  console.log('Cancel clicked');
+                }
+              },
+              {
+                text: 'Confirmer',
+                handler: () => {
+                  this.removeGroup();
+                }
+              }
+            ]
+          });
+          alert.present();
     }
 }

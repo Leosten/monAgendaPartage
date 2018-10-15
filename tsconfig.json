@@ -6,12 +6,16 @@
     "experimentalDecorators": true,
     "lib": [
       "dom",
-      "es2015"
+      "es2015",
+      "es6"
     ],
-    "module": "es2015",
+    "module": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es5"
+    "target": "es6",
+    "types": [
+      "core-js"
+    ]
   },
   "include": [
     "src/**/*.ts"
