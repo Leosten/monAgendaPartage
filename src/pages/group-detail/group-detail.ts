@@ -41,6 +41,7 @@ export class GroupDetailPage {
     removeGroup() {
         this.groupsService.removeGroup(this.group).then(result => {
             console.log("successfully removed group");
+            this.navCtrl.pop();
         }, err => {
             console.log("error: " + err);
         });

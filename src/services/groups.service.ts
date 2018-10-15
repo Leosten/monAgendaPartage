@@ -4,6 +4,7 @@ import * as firebase from 'firebase/app';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook'
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class GroupsService {
@@ -25,11 +26,24 @@ export class GroupsService {
         this.groups = this.afDb.list(this.dbPath);
     }
 
-    getGroups(user_id) {
-        return this.afDb.list(this.dbPath, ref => {
-            return ref.orderByChild("creator").equalTo(user_id);
+    getMyGroups(user_id) : Promise<any> {
+        return new Promise((resolve, reject) => {
+            let groups = [];
+
+            this.afDb.list(this.dbPath, ref => {
+                return ref.orderByChild("creator").equalTo(user_id);
+            }).snapshotChanges().pipe(
+                map(actions =>
+                    actions.map(a => ({ key: a.key, ...a.payload.val() }))
+                )
+            ).subscribe(groups_res => {
+                groups = groups_res.map(group => group);
+            // console.log(groups);
+                resolve(groups);
+            });
         });
-    };
+        // return groups;
+    }
 
     addGroup(group: any) {
         return this.groups.push(group);

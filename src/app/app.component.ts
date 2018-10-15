@@ -19,7 +19,7 @@ import { AuthService } from '../services/auth.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any;
 
   pages: Array<{title: string, component: any}>;
 
