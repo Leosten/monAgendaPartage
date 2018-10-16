@@ -30,6 +30,8 @@ import { EventsService } from '../services/events.service';
 import { GooglePlus } from '@ionic-native/google-plus'
 import { Facebook } from '@ionic-native/facebook'
 
+import { NgCalendarModule  } from 'ionic2-calendar';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -44,6 +46,7 @@ import { Facebook } from '@ionic-native/facebook'
     InfoPage
   ],
   imports: [
+    NgCalendarModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FirebaseConfig.fire),
@@ -72,7 +75,6 @@ import { Facebook } from '@ionic-native/facebook'
     EventsService,
     AngularFireDatabase,
     GooglePlus,
-    Calendar,
     Facebook,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]

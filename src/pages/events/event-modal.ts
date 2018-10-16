@@ -3,15 +3,25 @@ import { NavController, NavParams, ViewController, Platform, AlertController } f
 import { EventsService } from '../../services/events.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { GroupsService } from '../../services/groups.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'page-event-modal',
   templateUrl: 'event-modal.html'
 })
 export class EventModalPage {
-    event: any;
+    event = {
+        title: '',
+        location: '',
+        notes: '',
+        startTime: new Date().toISOString(),
+        endTime: new Date().toISOString(),
+        allDay: false
+    };
     groups: any;
     selected_groups: any;
+    selected_day: any;
+    minDate = new Date().toISOString();
 
     constructor(
         public params: NavParams,
@@ -22,13 +32,10 @@ export class EventModalPage {
         public eventsService: EventsService,
         private alertCtrl: AlertController
   ) {
-        this.event = {
-            title: '',
-            location: '',
-            notes: null,
-            startDate: null,
-            endDate: null
-        }
+        let preselectedDate = moment(this.params.get('selectedDay')).format();
+        this.event.startTime = preselectedDate;
+        this.event.endTime = preselectedDate;
+        this.minDate = new Date().toISOString();
     }
 
     ionViewDidLoad() {
@@ -44,7 +51,7 @@ export class EventModalPage {
     addNewEventConfirm() {
         let alert = this.alertCtrl.create({
             title: 'Créer cet événement?',
-            message: this.event.name,
+            message: this.event.title,
             buttons: [
               {
                 text: 'Annuler',
@@ -65,6 +72,8 @@ export class EventModalPage {
     }
 
     addNewEvent() {
+        console.log(this.selected_groups);
         this.eventsService.addNewEvent(this.selected_groups, this.event);
+        this.viewCtrl.dismiss(this.event);
     }
 }
