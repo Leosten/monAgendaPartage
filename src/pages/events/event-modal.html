@@ -14,13 +14,14 @@
 
 <ion-content>
   <form (ngSubmit)="addNewEventConfirm()">
+    <ion-list>
       <ion-item>
         <ion-label>Nouvel événement</ion-label>
-        <ion-input type="text" [(ngModel)]="event.name" name="title"></ion-input>
+        <ion-input type="text" [(ngModel)]="event.title" name="title"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Description</ion-label>
-        <ion-textarea [(ngModel)]="event.description" name="description"></ion-textarea>
+        <ion-textarea [(ngModel)]="event.notes" name="notes"></ion-textarea>
       </ion-item>
       <ion-item>
       <ion-label>Groupes</ion-label>
@@ -30,17 +31,18 @@
       </ion-item>
 
       <ion-item>
-        <ion-label>Date</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY" name="date" [(ngModel)]="event.date"></ion-datetime>
+        <ion-label>Début</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY HH:M" name="startTime" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
       </ion-item>
       <ion-item>
-        <ion-label>Heure de début</ion-label>
-        <ion-datetime displayFormat="HH:MM" name="start" [(ngModel)]="event.start"></ion-datetime>
+        <ion-label>Fin</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY HH:M" name="endTime" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
       </ion-item>
       <ion-item>
-        <ion-label>Heure de fin</ion-label>
-        <ion-datetime displayFormat="HH:MM" name="end" [(ngModel)]="event.end"></ion-datetime>
+        <ion-label>Toute la journée?</ion-label>
+        <ion-checkbox [(ngModel)]="event.allDay" name="allDay"></ion-checkbox>
       </ion-item>
-      <button ion-button type="submit" block>Créer un nouvel événement</button>
+    </ion-list>
+    <button ion-button type="submit" block>+ Créer un nouvel événement</button>
     </form>
 </ion-content>

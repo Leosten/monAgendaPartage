@@ -38,7 +38,9 @@ export class GroupsService {
 
                 for(let grp of grps) {
                     for(let gr of grp) {
-                        groups_res.push(gr);
+                        if (gr.user_id !== gr.creator) {
+                            groups_res.push(gr);
+                        }
                     }
                 }
 
