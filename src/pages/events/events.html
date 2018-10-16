@@ -11,10 +11,11 @@
     <button ion-button full (click)="openNewEventModal()">+ Créer un nouvel événement</button>
     <ion-card *ngFor="let evnt of my_events">
       <ion-card-header>
-        {{ evnt.event.name }}
+        <h2>{{ evnt.event.name }}</h2>
       </ion-card-header>
       <ion-card-content>
-        {{ evnt.event.description }}
+        <p text-center>Le {{ evnt.event.date }} de {{ evnt.event.start }} à {{ evnt.event.end }}</p>
+        <p>{{ evnt.event.description }}</p>
       </ion-card-content>
     </ion-card>
 </ion-content>

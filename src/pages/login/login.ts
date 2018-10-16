@@ -60,27 +60,27 @@ export class LoginPage {
 
     loginWithFacebook() {
         this.auth.signInWithFacebook().then((user: firebase.User) =>
-            // this.navCtrl.setRoot(HomePage),
             this.searchExistingUser(user.uid),
                 error => console.log(error.message)
         );
     }
 
     searchExistingUser(user_uid) {
-        let user = this.usersService.searchUserByUid(user_uid).valueChanges();
-        if (user === null) {
-            let new_user = {
-                uid: user_uid
+        let user = this.usersService.searchUsers(user_uid).then(res => {
+            if (res.length === 0) {
+                let new_user = {
+                    uid: user_uid
+                }
+                this.usersService.addUser(new_user).then(result => {
+                    this.navCtrl.setRoot(InfoPage);
+                    console.log("successfully added new user");
+                }, err => {
+                    console.log("error: " + err);
+                });
+            } else {
+                this.navCtrl.setRoot(HomePage);
             }
-            this.usersService.addUser(new_user).then(result => {
-                this.navCtrl.setRoot(InfoPage);
-                console.log("successfully added new user");
-            }, err => {
-                console.log("error: " + err);
-            });
-        } else {
-            this.navCtrl.setRoot(HomePage);
-        }
+        });
     }
 
 }

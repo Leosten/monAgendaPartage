@@ -12,6 +12,7 @@
     "ionic:serve": "ionic-app-scripts serve"
   },
   "dependencies": {
+    "@angular/animations": "^5.2.11",
     "@angular/common": "^5.2.11",
     "@angular/compiler": "5.0.0",
     "@angular/compiler-cli": "5.0.0",
@@ -21,6 +22,7 @@
     "@angular/http": "5.0.0",
     "@angular/platform-browser": "5.0.0",
     "@angular/platform-browser-dynamic": "5.0.0",
+    "@ionic-native/calendar": "^4.15.0",
     "@ionic-native/core": "^4.14.0",
     "@ionic-native/facebook": "^4.15.0",
     "@ionic-native/firebase": "^4.14.0",
@@ -34,6 +36,7 @@
     "cordova-android": "~7.0.0",
     "cordova-browser": "^5.0.4",
     "cordova-ios": "^4.5.5",
+    "cordova-plugin-calendar": "^5.1.2",
     "cordova-plugin-device": "^1.1.4",
     "cordova-plugin-facebook4": "^3.0.0",
     "cordova-plugin-firebase": "^2.0.2",
@@ -73,6 +76,9 @@
         "APP_ID": "323886285056528",
         "APP_NAME": "monagendapartage",
         "FACEBOOK_ANDROID_SDK_VERSION": "4.36.0"
+      },
+      "cordova-plugin-calendar": {
+        "CALENDAR_USAGE_DESCRIPTION": " "
       }
     },
     "platforms": [
