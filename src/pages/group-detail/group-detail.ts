@@ -28,7 +28,7 @@ export class GroupDetailPage {
     }
 
     searchUsers(query) {
-        this.usersService.searchUserByQuery("email", query).valueChanges().subscribe(res => {
+        this.usersService.searchUsers(query).then(res => {
             this.found_users = res;
         });
     }

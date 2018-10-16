@@ -23,11 +23,11 @@ export class EventModalPage {
         private alertCtrl: AlertController
   ) {
         this.event = {
-            name: '',
-            description: '',
-            date: null,
-            start: null,
-            end: null
+            title: '',
+            location: '',
+            notes: null,
+            startDate: null,
+            endDate: null
         }
     }
 

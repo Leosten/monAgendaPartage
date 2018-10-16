@@ -28,10 +28,36 @@ export class GroupsService {
 
     getMyGroups() : Promise<any> {
         return new Promise((resolve, reject) => {
+            const groupsPromise = [];
+
+            groupsPromise.push(this.getGroupsByField('creator', this.user.uid));
+            groupsPromise.push(this.getGroupsByField('user_id', this.user.uid));
+
+            Promise.all(groupsPromise).then(grps => {
+                let groups_res = [];
+
+                for(let grp of grps) {
+                    for(let gr of grp) {
+                        groups_res.push(gr);
+                    }
+                }
+
+                // Pour enlever les doublons
+                let groups_unique = [...new Set(groups_res)];
+                resolve(groups_unique);
+            })
+            .catch(err => {
+                reject(err);
+            });
+        });
+    }
+
+    getGroupsByField(field, query) : Promise<any> {
+        return new Promise((resolve, reject) => {
             let groups = [];
 
             this.afDb.list(this.dbPath, ref => {
-                return ref.orderByChild("creator").equalTo(this.user.uid);
+                return ref.orderByChild(field).equalTo(query);
             }).snapshotChanges().pipe(
                 map(actions =>
                     actions.map(a => ({ key: a.key, ...a.payload.val() }))

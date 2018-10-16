@@ -50,7 +50,7 @@ export class GroupsPage {
         let new_group = {
             name: this.add_group_input.value.name,
             creator: this.user.uid,
-            user_id: this.user.uid,
+            user_id: '',
             status: 'accepted'
         };
 

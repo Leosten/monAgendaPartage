@@ -44,6 +44,7 @@ export class EventsService {
                             events_res.push(v);
                         }
                     }
+                    // TODO: doublons un event sur plusieurs groupes
                     resolve(events_res);
                 })
                 .catch(err => {
