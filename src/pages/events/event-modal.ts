@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController, Platform, AlertController } from 'ionic-angular';
+import { NavParams, ViewController, Platform, AlertController } from 'ionic-angular';
 import { EventsService } from '../../services/events.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { GroupsService } from '../../services/groups.service';
@@ -20,9 +20,9 @@ export class EventModalPage {
         group_id: ''
     };
     groups: any;
-    selected_groups: any;
     selected_day: any;
     minDate = new Date().toISOString();
+    type = 'create';
 
     constructor(
         public params: NavParams,
@@ -33,9 +33,16 @@ export class EventModalPage {
         public eventsService: EventsService,
         private alertCtrl: AlertController
   ) {
-        let preselectedDate = moment(this.params.get('selectedDay')).format();
-        this.event.startTime = preselectedDate;
-        this.event.endTime = preselectedDate;
+        if (this.params.get('type') === 'modify') {
+            this.type = 'modify';
+            this.event = this.params.get('event');
+            this.event.startTime = moment(this.event.startTime).format();
+            this.event.endTime = moment(this.event.endTime).format();
+        } else {
+            let preselectedDate = moment(this.params.get('selectedDay')).format();
+            this.event.startTime = preselectedDate;
+            this.event.endTime = preselectedDate;
+        }
         this.minDate = new Date().toISOString();
     }
 
@@ -50,8 +57,12 @@ export class EventModalPage {
     }
 
     addNewEventConfirm() {
+        let msg = 'Créer cet événement?';
+        if (this.type === 'modify') {
+            msg = 'Modifier cet événement?'
+        }
         let alert = this.alertCtrl.create({
-            title: 'Créer cet événement?',
+            title: msg,
             message: this.event.title,
             buttons: [
               {
@@ -64,7 +75,11 @@ export class EventModalPage {
               {
                 text: 'Confirmer',
                 handler: () => {
-                  this.addNewEvent();
+                    if (this.type === 'modify') {
+                        this.modifyEvent();
+                    } else {
+                        this.addNewEvent();
+                    }
                 }
               }
             ]
@@ -73,9 +88,56 @@ export class EventModalPage {
     }
 
     addNewEvent() {
-        // console.log(this.selected_groups);
-        this.event.group_id = this.selected_groups;
-        this.eventsService.addNewEvent(this.event);
-        this.viewCtrl.dismiss(this.event);
+        this.eventsService.addNewEvent(this.event).then(res => {
+            console.log('event added');
+        }, err => {
+            console.log ('error: ' + err);
+        });
+        this.viewCtrl.dismiss();
+    }
+
+    modifyEvent() {
+        this.eventsService.modifyEvent(this.event).then(res => {
+            console.log('event modified');
+            this.viewCtrl.dismiss();
+        }, err => {
+            console.log ('error: ' + err);
+        });
+    }
+
+    removeEvent(event) {
+        this.eventsService.removeEvent(this.event)
+        .then(res => {
+            this.viewCtrl.dismiss();
+            console.log('event removed');
+        }, err => {
+            console.log ('error: ' + err);
+        });;
+    }
+
+     removeEventConfirm() {
+        let msg = 'Supprimer cet événement?';
+
+        let alert = this.alertCtrl.create({
+            title: msg,
+            message: this.event.title,
+            buttons: [
+                {
+                    text: 'Annuler',
+                    role: 'cancel',
+                    handler: () => {
+                      console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Confirmer',
+                    handler: () => {
+                        this.removeEvent(this.event);
+                    }
+                }
+            ]
+        });
+
+        alert.present();
     }
 }
