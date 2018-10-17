@@ -38,7 +38,7 @@ export class UsersService {
             const usersPromise = [];
 
             usersPromise.push(this.getUsersByField('email', query));
-            usersPromise.push(this.getUsersByField('displayName', query));
+            usersPromise.push(this.getUsersByField('display_name', query));
 
             Promise
             .all(usersPromise)
@@ -94,9 +94,7 @@ export class UsersService {
                     }
                 }
 
-                // Pour enlever les doublons
-                let users_unique = [...new Set(users_res)];
-                resolve(users_unique);
+                resolve(users_res);
             })
             .catch(err => {
                 reject(err);

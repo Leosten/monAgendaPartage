@@ -12,6 +12,7 @@ export class GroupDetailPage {
     public group: any;
     public search_user: string;
     public found_users: any;
+    user: any;
 
     constructor(
         public navCtrl: NavController,
@@ -24,6 +25,7 @@ export class GroupDetailPage {
     }
 
     ionViewDidLoad() {
+        this.user = this.usersService.getCurrentUser();
     }
 
     searchUsers(query) {
@@ -32,8 +34,21 @@ export class GroupDetailPage {
         });
     }
 
-    addUserToGroup() {
+    addUserToGroup(user, adm) {
+        let new_group = {
+            name: this.group.name,
+            user_id: user.uid,
+            group_id: this.group.group_id,
+            status: 'pending',
+            adm: adm
 
+        };
+
+        this.groupsService.addGroup(new_group).then(result => {
+            console.log("successfully added new group");
+        }, err => {
+            console.log("error: " + err);
+        });
     }
 
     removeGroup() {
@@ -45,9 +60,45 @@ export class GroupDetailPage {
         });
     }
 
+    confirmAddUserToGroup(user) {
+        let alert = this.alertCtrl.create({
+            title: 'Ajouter ce membre au groupe?',
+            message: user.email + ' | ' + user.display_name,
+            inputs: [
+                {
+                    type:'checkbox',
+                    label: 'Administrateur',
+                    value: 'adm',
+                    checked: false
+                }
+            ],
+            buttons: [
+              {
+                text: 'Annuler',
+                role: 'cancel',
+                handler: () => {
+                  console.log('Cancel clicked');
+                }
+              },
+              {
+                text: 'Confirmer',
+                handler: data => {
+                    let adm = false;
+                    if (data.length > 0) {
+                        adm = true;
+                    }
+
+                    this.addUserToGroup(user, adm);
+                }
+              }
+            ]
+          });
+          alert.present();
+    }
+
     removeGroupConfirm() {
         let alert = this.alertCtrl.create({
-            title: 'Supprimer ce groupe?',
+            title: 'Quitter ce groupe?',
             message: this.group.name,
             buttons: [
               {

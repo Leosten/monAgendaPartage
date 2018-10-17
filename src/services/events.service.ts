@@ -24,8 +24,8 @@ export class EventsService {
         afAuth.authState.subscribe(user => {
             this.user = user;
         });
-
-        this.events = this.afDb.list('/events');
+        this.dbPath = '/events'
+        this.events = this.afDb.list(this.dbPath);
     }
 
     getMyEvents() : Promise<any> {
@@ -34,7 +34,7 @@ export class EventsService {
             // Je recup mes groupes actuels
             this.groupsService.getMyGroups().then(res => {
                 for (let grp of res) {
-                    eventsPromises.push(this.getEventsByField('group_id', grp.key));
+                    eventsPromises.push(this.getEventsByField('group_id', grp));
                 }
 
                 // puis les events depuis liés à ces groups
@@ -61,30 +61,38 @@ export class EventsService {
         });
     }
 
-    getEventsByField(field, query) : Promise<any> {
+    getEventsByField(field, entity) : Promise<any> {
         return new Promise((resolve, reject) => {
             let evnts = [];
 
-            this.afDb.list('/events', ref => {
-                return ref.orderByChild(field).equalTo(query);
+            this.afDb.list(this.dbPath, ref => {
+                return ref.orderByChild(field).equalTo(entity.group_id);
             }).snapshotChanges().pipe(
                 map(actions =>
                     actions.map(a => ({ key: a.key, ...a.payload.val() }))
                 )
             ).subscribe(evnts_res => {
-                evnts = evnts_res.map(evnt => evnt);
+                evnts = evnts_res.map(evnt => {
+                    evnt['group_name'] = entity.name;
+                    return evnt;
+                });
+
                 resolve(evnts);
             });
         });
     }
 
     addNewEvent(evnt: any) {
-        let data: any;
+        return this.events.push(evnt);
+    }
 
-        this.events.push(evnt).then(new_event => {
-            console.log("event created");
-        }, err => {
-            console.log ("error adding event");
-        });
+    modifyEvent(event) {
+        return this.afDb.object(this.dbPath + '/' + event.key).update(
+            event);
+    }
+
+    removeEvent(event) {
+        // TODO: remove only if adm is true in group-events
+        return this.afDb.object(this.dbPath + '/' + event.key).remove();
     }
 }

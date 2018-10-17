@@ -15,7 +15,14 @@
       </ion-item>
     </form>
     <ion-list>
+      <h2>Mes groupes</h2>
       <ion-item ion-item *ngFor="let group of groups" detail-push (click)="groupsDetail(group)">
+          {{ group.name }}
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <h2>Mes invitations en cours</h2>
+      <ion-item ion-item *ngFor="let group of pending_groups" detail-push (click)="confirmAcceptGroup(group)">
           {{ group.name }}
       </ion-item>
     </ion-list>
