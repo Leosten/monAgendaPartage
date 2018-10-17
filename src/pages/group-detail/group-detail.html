@@ -24,7 +24,7 @@
   </ion-card-header>
 
   <ion-list>
-    <button ion-item ion-item *ngFor="let usr of found_users" (click)="addUserToGroup()">
+    <button ion-item ion-item *ngFor="let usr of found_users" (click)="confirmAddUserToGroup(usr)">
       <ion-icon name="md-person-add" item-start></ion-icon>
       {{(usr.display_name || 'Pas de pseudo')}} | {{usr.email}}
     </button>
@@ -43,6 +43,6 @@
 </ion-content>
 
 <ion-footer>
-     <button color="danger" ion-button full (click)="removeGroupConfirm()">Supprimer un groupe</button>
+     <button color="danger" ion-button full (click)="removeGroupConfirm()">Quitter ce groupe</button>
 </ion-footer>
 

@@ -53,23 +53,25 @@ export class LoginPage {
 
     loginWithGoogle() {
         this.auth.signInWithGoogle().then((user: firebase.User) =>
-            this.searchExistingUser(user.uid),
+            this.searchExistingUser(user),
                 error => console.log(error.message)
         );
     }
 
     loginWithFacebook() {
         this.auth.signInWithFacebook().then((user: firebase.User) =>
-            this.searchExistingUser(user.uid),
+            this.searchExistingUser(user),
                 error => console.log(error.message)
         );
     }
 
-    searchExistingUser(user_uid) {
-        let user = this.usersService.searchUsers(user_uid).then(res => {
+    searchExistingUser(user) {
+        this.usersService.searchUsers(user.uid).then(res => {
             if (res.length === 0) {
                 let new_user = {
-                    uid: user_uid
+                    uid: user.uid,
+                    email: user.email,
+                    display_name: ''
                 }
                 this.usersService.addUser(new_user).then(result => {
                     this.navCtrl.setRoot(InfoPage);

@@ -4,6 +4,7 @@ import { GroupsService } from '../../services/groups.service';
 import { EventsService } from '../../services/events.service';
 import { ModalController } from 'ionic-angular';
 import { EventModalPage } from './event-modal';
+import * as moment from 'moment';
 
 @IonicPage()
 @Component({
@@ -22,18 +23,26 @@ export class EventsPage {
     ) {
     }
 
-    ionViewDidLoad() {
+    ionViewWillEnter() {
+        this.refreshEvents();
+    }
+
+    refreshEvents() {
         this.eventsService.getMyEvents().then(res => {
+            // Format de date pour l'affichage
              this.my_events = res.map(ev => {
-                ev.startTime = ev.startTime.toISOString()
-                ev.endTime = ev.endTime.toISOString()
+                ev.startTime = moment(ev.startTime).format();
+                ev.endTime = moment(ev.endTime).format();
                 return ev;
             });
         });
     }
 
     openNewEventModal() {
-        let profileModal = this.modalCtrl.create(EventModalPage);
-        profileModal.present();
+        let newEventModal = this.modalCtrl.create(EventModalPage);
+        newEventModal.present();
+        newEventModal.onDidDismiss(data => {
+             this.refreshEvents();
+        });
     }
 }

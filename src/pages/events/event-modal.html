@@ -1,7 +1,8 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Description
+      <h2 *ngIf="type !== 'modify'">Nouvel événement</h2>
+        <h2 *ngIf="type === 'modify'">Modifier un événement</h2>
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -16,7 +17,7 @@
   <form (ngSubmit)="addNewEventConfirm()">
     <ion-list>
       <ion-item>
-        <ion-label>Nouvel événement</ion-label>
+        <ion-label>Nom de l'événement</ion-label>
         <ion-input type="text" [(ngModel)]="event.title" name="title"></ion-input>
       </ion-item>
       <ion-item>
@@ -24,25 +25,30 @@
         <ion-textarea [(ngModel)]="event.notes" name="notes"></ion-textarea>
       </ion-item>
       <ion-item>
-      <ion-label>Groupes</ion-label>
-        <ion-select [(ngModel)]="selected_groups" name="selected_groups" submitText="OK" cancelText="Annuler">
-          <ion-option *ngFor="let grp of groups" value="{{grp.key}}">{{grp.name}}</ion-option>
+        <ion-label>Groupes</ion-label>
+        <ion-select [(ngModel)]="event.group_id" name="group_id" submitText="OK" cancelText="Annuler">
+          <ion-option *ngFor="let grp of groups" value="{{grp.group_id}}">{{grp.name}}</ion-option>
         </ion-select>
       </ion-item>
 
       <ion-item>
         <ion-label>Début</ion-label>
-        <ion-datetime displayFormat="DD/MM/YYYY HH:M" name="startTime" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
+        <ion-datetime displayFormat="DD/MM/YYYY HH:mm" name="startTime" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
       </ion-item>
       <ion-item>
         <ion-label>Fin</ion-label>
-        <ion-datetime displayFormat="DD/MM/YYYY HH:M" name="endTime" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
+        <ion-datetime displayFormat="DD/MM/YYYY HH:mm" name="endTime" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
       </ion-item>
       <ion-item>
         <ion-label>Toute la journée?</ion-label>
         <ion-checkbox [(ngModel)]="event.allDay" name="allDay"></ion-checkbox>
       </ion-item>
     </ion-list>
-    <button ion-button type="submit" block>+ Créer un nouvel événement</button>
+    <button *ngIf="type !== 'modify'" ion-button type="submit" block>+ Créer un nouvel événement</button>
+    <button *ngIf="type === 'modify'" ion-button type="submit" block>Modifier cet événement</button>
+
     </form>
 </ion-content>
+<ion-footer>
+  <button *ngIf="type === 'modify'" color="danger" ion-button block (click)="removeEventConfirm()">Supprimer cet événement</button>
+</ion-footer>
