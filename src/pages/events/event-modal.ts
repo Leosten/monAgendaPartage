@@ -16,7 +16,8 @@ export class EventModalPage {
         notes: '',
         startTime: new Date().toISOString(),
         endTime: new Date().toISOString(),
-        allDay: false
+        allDay: false,
+        group_id: ''
     };
     groups: any;
     selected_groups: any;
@@ -72,8 +73,9 @@ export class EventModalPage {
     }
 
     addNewEvent() {
-        console.log(this.selected_groups);
-        this.eventsService.addNewEvent(this.selected_groups, this.event);
+        // console.log(this.selected_groups);
+        this.event.group_id = this.selected_groups;
+        this.eventsService.addNewEvent(this.event);
         this.viewCtrl.dismiss(this.event);
     }
 }

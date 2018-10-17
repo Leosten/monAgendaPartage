@@ -51,7 +51,9 @@ export class GroupsPage {
             name: this.add_group_input.value.name,
             creator: this.user.uid,
             user_id: '',
-            status: 'accepted'
+            status: 'accepted',
+            adm: 'true'
+
         };
 
         this.groupsService.addGroup(new_group).then(result => {

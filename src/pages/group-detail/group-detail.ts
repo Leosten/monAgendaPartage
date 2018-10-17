@@ -24,7 +24,6 @@ export class GroupDetailPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad GroupDetailPage');
     }
 
     searchUsers(query) {

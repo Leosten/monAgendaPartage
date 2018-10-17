@@ -30,19 +30,7 @@ export class HomePage {
         let modal = this.modalCtrl.create(EventModalPage, { selectedDay: this.selectedDay });
         modal.present();
         modal.onDidDismiss(data => {
-            if (data) {
-                let eventData = data;
-
-                // eventData.startTime = new Date(data.startTime);
-                // eventData.endTime = new Date(data.endTime);
-
-                let events = this.eventSource;
-                events.push(eventData);
-                this.eventSource = [];
-                setTimeout(() => {
-                    this.eventSource = events;
-                });
-            }
+             this.refreshEvents();
         });
     }
 
@@ -51,18 +39,15 @@ export class HomePage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad EventsPage');
         this.refreshEvents();
     }
 
     refreshEvents() {
         this.eventsService.getMyEvents().then(res => {
-            for(let evnt of res) {
-                this.eventSource.push(evnt.event);
-            }
-            console.log(this.eventSource);
+            this.eventSource = res;
         });
     }
+
     onEventSelected(event) {
         let start = moment(event.startTime).format('LLLL');
         let end = moment(event.endTime).format('LLLL');

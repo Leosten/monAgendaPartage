@@ -25,7 +25,7 @@
       </ion-item>
       <ion-item>
       <ion-label>Groupes</ion-label>
-        <ion-select [(ngModel)]="selected_groups" name="selected_groups" submitText="OK" cancelText="Annuler" multiple="true">
+        <ion-select [(ngModel)]="selected_groups" name="selected_groups" submitText="OK" cancelText="Annuler">
           <ion-option *ngFor="let grp of groups" value="{{grp.key}}">{{grp.name}}</ion-option>
         </ion-select>
       </ion-item>
