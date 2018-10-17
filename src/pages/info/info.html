@@ -11,12 +11,12 @@
 <ion-content padding>
     <form (submit)="editInfo()" [formGroup]="info_form">
       <ion-item>
-        <ion-input type="text" formControlName="displayName" placeholder="Pseudonyme"></ion-input>
+        <ion-input type="text" formControlName="display_name" placeholder="Pseudonyme"></ion-input>
       </ion-item>
     </form>
     <button ion-button>Continuer</button>
     <ion-item item-start>
-        <p>{{ user.displayName }}</p>
+        <p>{{ user.display_name }}</p>
       </ion-item>
       <ion-item>
         <p>{{ user.email }}</p>

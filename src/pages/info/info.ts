@@ -21,7 +21,7 @@ export class InfoPage {
       fb: FormBuilder
     ) {
         this.info_form = fb.group({
-            displayName: ['', Validators.compose([Validators.required])]
+            display_name: ['', Validators.compose([Validators.required])]
         });
         this.afAuth.authState.subscribe(user => {
             this.user = user;

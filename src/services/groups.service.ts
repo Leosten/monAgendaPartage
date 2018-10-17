@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 export class GroupsService {
     private user: firebase.User;
     groups: AngularFireList<any[]>;
+    main_groups: AngularFireList<any[]>;
     dbPath: any;
     user_id: any;
 
@@ -23,33 +24,43 @@ export class GroupsService {
             this.user = user;
         });
         this.dbPath = '/user-groups';
+        this.main_groups = this.afDb.list('/groups');
         this.groups = this.afDb.list(this.dbPath);
     }
 
     getMyGroups() : Promise<any> {
         return new Promise((resolve, reject) => {
-            const groupsPromise = [];
-
-            groupsPromise.push(this.getGroupsByField('creator', this.user.uid));
-            groupsPromise.push(this.getGroupsByField('user_id', this.user.uid));
-
-            Promise.all(groupsPromise).then(grps => {
+            this.getGroupsByField('user_id', this.user.uid).then(grps => {
                 let groups_res = [];
                 if (grps.length !== 0) {
                     for(let grp of grps) {
-                        for(let gr of grp) {
-                            if (gr.user_id !== gr.creator && gr.status === 'accepted') {
-                                groups_res.push(gr);
-                            }
+                        if (grp.status === 'accepted') {
+                            groups_res.push(grp);
                         }
                     }
-
-                    // Pour enlever les doublons
-                    groups_res = [...new Set(groups_res)];
                 }
                 resolve(groups_res);
             })
             .catch(err => {
+                reject(err);
+            });
+        });
+    }
+
+    getPendingGroups() : Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getGroupsByField('user_id', this.user.uid).then(grps => {
+                console.log(grps);
+                let groups_res = [];
+                if (grps.length !== 0) {
+                    for(let grp of grps) {
+                        if (grp.status === 'pending') {
+                            groups_res.push(grp);
+                        }
+                    }
+                }
+                resolve(groups_res);
+            }, err => {
                 reject(err);
             });
         });
@@ -72,8 +83,18 @@ export class GroupsService {
         });
     }
 
+    addMainGroup(main_group) {
+        return this.main_groups.push(main_group);
+    }
+
     addGroup(group: any) {
         return this.groups.push(group);
+    }
+
+    acceptGroupInvitation(group) {
+        group.status = 'accepted';
+        return this.afDb.object(this.dbPath + '/' + group.key).update(
+            group);
     }
 
     removeGroup(group: any) {
@@ -83,9 +104,5 @@ export class GroupsService {
     searchGroup(name) {
         this.afDb.list(this.dbPath, ref => {
             return ref.orderByChild("name").equalTo(name); });
-    }
-
-    addUserToGroup(group, user) {
-
     }
 }

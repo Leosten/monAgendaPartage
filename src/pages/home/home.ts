@@ -38,7 +38,7 @@ export class HomePage {
         this.viewTitle = title;
     }
 
-    ionViewDidLoad() {
+    ionViewWillEnter() {
         this.refreshEvents();
     }
 
@@ -48,17 +48,12 @@ export class HomePage {
         });
     }
 
-    onEventSelected(event) {
-        let start = moment(event.startTime).format('LLLL');
-        let end = moment(event.endTime).format('LLLL');
-
-        //TODO: modif event
-        let alert = this.alertCtrl.create({
-            title: '' + event.title,
-            subTitle: 'De : ' + start + '<br>à : ' + end,
-            buttons: ['OK']
-        })
-        alert.present();
+    onEventSelected(evnt) {
+        let modal = this.modalCtrl.create(EventModalPage, { type: 'modify', event: evnt });
+        modal.present();
+        modal.onDidDismiss(data => {
+             this.refreshEvents();
+        });
     }
 
     onTimeSelected(ev) {
