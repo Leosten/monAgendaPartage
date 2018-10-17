@@ -35,18 +35,19 @@ export class GroupsService {
 
             Promise.all(groupsPromise).then(grps => {
                 let groups_res = [];
-
-                for(let grp of grps) {
-                    for(let gr of grp) {
-                        if (gr.user_id !== gr.creator) {
-                            groups_res.push(gr);
+                if (grps.length !== 0) {
+                    for(let grp of grps) {
+                        for(let gr of grp) {
+                            if (gr.user_id !== gr.creator && gr.status === 'accepted') {
+                                groups_res.push(gr);
+                            }
                         }
                     }
-                }
 
-                // Pour enlever les doublons
-                let groups_unique = [...new Set(groups_res)];
-                resolve(groups_unique);
+                    // Pour enlever les doublons
+                    groups_res = [...new Set(groups_res)];
+                }
+                resolve(groups_res);
             })
             .catch(err => {
                 reject(err);

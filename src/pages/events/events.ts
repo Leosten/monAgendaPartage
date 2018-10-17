@@ -23,9 +23,12 @@ export class EventsPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad EventsPage');
         this.eventsService.getMyEvents().then(res => {
-            this.my_events = res;
+             this.my_events = res.map(ev => {
+                ev.startTime = ev.startTime.toISOString()
+                ev.endTime = ev.endTime.toISOString()
+                return ev;
+            });
         });
     }
 
