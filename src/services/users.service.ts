@@ -4,6 +4,8 @@ import * as firebase from 'firebase/app';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook'
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { map } from 'rxjs/operators';
+import { GroupsService } from './groups.service';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +18,8 @@ export class UsersService {
         public afAuth: AngularFireAuth,
         public afDb: AngularFireDatabase,
         public googlePlus: GooglePlus,
-        public facebook: Facebook
+        public facebook: Facebook,
+        public groupsService: GroupsService
     ) {
         afAuth.authState.subscribe(user => {
             this.user = user;
@@ -25,15 +28,79 @@ export class UsersService {
         this.users = this.afDb.list(this.dbPath);
     }
 
-    searchUserByUid(user_id) {
-        return this.afDb.list(this.dbPath, ref => {
-            return ref.orderByChild("uid").equalTo(user_id);
-        });
-    };
+    getCurrentUser() {
+        return this.user;
+    }
 
-    searchUserByQuery(field, query) {
-        return this.afDb.list(this.dbPath, ref => {
-            return ref.orderByChild(field).equalTo(query);
+    searchUsers(query) : Promise<any> {
+        return new Promise((resolve, reject) => {
+            let users = [];
+            const usersPromise = [];
+
+            usersPromise.push(this.getUsersByField('email', query));
+            usersPromise.push(this.getUsersByField('displayName', query));
+
+            Promise
+            .all(usersPromise)
+            .then(usrs => {
+                let users_res = [];
+                for(let usr of usrs) {
+                    for(let us of usr) {
+                        users_res.push(us);
+                    }
+                }
+                // Pour enlever les doublons
+                let users_unique = [...new Set(users_res)];
+                resolve(users_unique);
+            })
+            .catch(err => {
+                reject(err);
+            });
+
+        });
+    }
+
+    getUsersByField(field, query) : Promise<any> {
+        return new Promise((resolve, reject) => {
+            let users = [];
+
+            this.afDb.list(this.dbPath, ref => {
+                return ref.orderByChild(field).equalTo(query);
+            }).snapshotChanges().pipe(
+                map(actions =>
+                    actions.map(a => ({ key: a.key, ...a.payload.val() }))
+                )
+            ).subscribe(users_res => {
+                resolve(users_res);
+            });
+        });
+    }
+
+    getGroupsMembers(group_id) : Promise<any> {
+        return new Promise((resolve, reject) => {
+            const usrs_promise = [];
+
+            this.groupsService.getGroupsByField('group_id', group_id).then(res => {
+                for(let grp of res) {
+                    usrs_promise.push(this.getUsersByField('uid', grp.user_id));
+                }
+            });
+
+            Promise.all(usrs_promise).then(usrs => {
+                let users_res = [];
+                for(let usr of usrs) {
+                    for(let us of usr) {
+                        users_res.push(us);
+                    }
+                }
+
+                // Pour enlever les doublons
+                let users_unique = [...new Set(users_res)];
+                resolve(users_unique);
+            })
+            .catch(err => {
+                reject(err);
+            });
         });
     }
 

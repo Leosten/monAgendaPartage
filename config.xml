@@ -94,4 +94,7 @@
         <variable name="APP_NAME" value="monagendapartage" />
         <variable name="FACEBOOK_ANDROID_SDK_VERSION" value="4.36.0" />
     </plugin>
+    <plugin name="cordova-plugin-calendar" spec="^5.1.2">
+        <variable name="CALENDAR_USAGE_DESCRIPTION" value=" " />
+    </plugin>
 </widget>

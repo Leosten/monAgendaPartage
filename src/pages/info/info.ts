@@ -27,6 +27,9 @@ export class InfoPage {
             this.user = user;
         });
   }
+    ionViewDidLoad() {
+
+    }
 
     ionViewDidLeave() {
 
