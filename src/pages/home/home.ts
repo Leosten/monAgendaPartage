@@ -52,6 +52,7 @@ export class HomePage {
         let start = moment(event.startTime).format('LLLL');
         let end = moment(event.endTime).format('LLLL');
 
+        //TODO: modif event
         let alert = this.alertCtrl.create({
             title: '' + event.title,
             subTitle: 'De : ' + start + '<br>à : ' + end,
