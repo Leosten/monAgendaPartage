@@ -11,6 +11,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { SettingsPage } from '../pages/settings/settings';
 import { EventsPage } from '../pages/events/events';
 import { InfoPage } from '../pages/info/info';
+import { EventModalPage } from '../pages/events/event-modal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -24,9 +25,13 @@ import { FirebaseConfig } from '../config';
 import { AuthService } from '../services/auth.service';
 import { GroupsService } from '../services/groups.service';
 import { UsersService } from '../services/users.service';
+import { EventsService } from '../services/events.service';
 
 import { GooglePlus } from '@ionic-native/google-plus'
 import { Facebook } from '@ionic-native/facebook'
+
+import { NgCalendarModule  } from 'ionic2-calendar';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -37,9 +42,11 @@ import { Facebook } from '@ionic-native/facebook'
     SignupPage,
     SettingsPage,
     EventsPage,
+    EventModalPage,
     InfoPage
   ],
   imports: [
+    NgCalendarModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FirebaseConfig.fire),
@@ -54,6 +61,7 @@ import { Facebook } from '@ionic-native/facebook'
     SignupPage,
     SettingsPage,
     EventsPage,
+    EventModalPage,
     InfoPage
   ],
   providers: [
@@ -64,10 +72,11 @@ import { Facebook } from '@ionic-native/facebook'
     AuthService,
     GroupsService,
     UsersService,
+    EventsService,
     AngularFireDatabase,
     GooglePlus,
     Facebook,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })
 export class AppModule {}

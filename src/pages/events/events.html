@@ -8,13 +8,14 @@
 </ion-header>
 
 <ion-content>
-    <button ion-button full>+ Créer un nouvel événement</button>
-  <ion-list>
-<!--     <button ion-item *ngFor="let evnt of (events | async)" (click)="eventDetail(evnt)">
-      {{ event.name }}
-    </button> -->
-  </ion-list>
-  <!-- <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div> -->
+    <button ion-button full (click)="openNewEventModal()">+ Créer un nouvel événement</button>
+    <ion-card *ngFor="let evnt of my_events">
+      <ion-card-header>
+        <h2>{{ evnt.title }}</h2>
+      </ion-card-header>
+      <ion-card-content>
+        <p text-center>Début : <ion-datetime displayFormat="DD MMM YYYY HH:mm" name="startTime" [(ngModel)]="evnt.startTime"></ion-datetime><br> Fin : <ion-datetime displayFormat="DD MMM YYYY HH:mm" name="endTime" [(ngModel)]="evnt.endTime"></ion-datetime></p>
+        <p>{{ evnt.notes }}</p>
+      </ion-card-content>
+    </ion-card>
 </ion-content>

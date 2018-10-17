@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { UsersService } from '../../services/users.service';
 import { GroupsService } from '../../services/groups.service';
-import { AlertController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -25,11 +24,10 @@ export class GroupDetailPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad GroupDetailPage');
     }
 
     searchUsers(query) {
-        this.usersService.searchUserByQuery("email", query).valueChanges().subscribe(res => {
+        this.usersService.searchUsers(query).then(res => {
             this.found_users = res;
         });
     }
@@ -41,6 +39,7 @@ export class GroupDetailPage {
     removeGroup() {
         this.groupsService.removeGroup(this.group).then(result => {
             console.log("successfully removed group");
+            this.navCtrl.pop();
         }, err => {
             console.log("error: " + err);
         });

@@ -4,6 +4,7 @@ import * as firebase from 'firebase/app';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook'
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class GroupsService {
@@ -25,11 +26,51 @@ export class GroupsService {
         this.groups = this.afDb.list(this.dbPath);
     }
 
-    getGroups(user_id) {
-        return this.afDb.list(this.dbPath, ref => {
-            return ref.orderByChild("creator").equalTo(user_id);
+    getMyGroups() : Promise<any> {
+        return new Promise((resolve, reject) => {
+            const groupsPromise = [];
+
+            groupsPromise.push(this.getGroupsByField('creator', this.user.uid));
+            groupsPromise.push(this.getGroupsByField('user_id', this.user.uid));
+
+            Promise.all(groupsPromise).then(grps => {
+                let groups_res = [];
+                if (grps.length !== 0) {
+                    for(let grp of grps) {
+                        for(let gr of grp) {
+                            if (gr.user_id !== gr.creator && gr.status === 'accepted') {
+                                groups_res.push(gr);
+                            }
+                        }
+                    }
+
+                    // Pour enlever les doublons
+                    groups_res = [...new Set(groups_res)];
+                }
+                resolve(groups_res);
+            })
+            .catch(err => {
+                reject(err);
+            });
         });
-    };
+    }
+
+    getGroupsByField(field, query) : Promise<any> {
+        return new Promise((resolve, reject) => {
+            let groups = [];
+
+            this.afDb.list(this.dbPath, ref => {
+                return ref.orderByChild(field).equalTo(query);
+            }).snapshotChanges().pipe(
+                map(actions =>
+                    actions.map(a => ({ key: a.key, ...a.payload.val() }))
+                )
+            ).subscribe(groups_res => {
+                groups = groups_res.map(group => group);
+                resolve(groups);
+            });
+        });
+    }
 
     addGroup(group: any) {
         return this.groups.push(group);
