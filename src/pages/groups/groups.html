@@ -8,22 +8,24 @@
 </ion-header>
 
 <ion-content>
-    <button ion-button full (click)="add_group = !add_group">+ Ajouter un groupe</button>
-    <form (submit)="newGroup()" [formGroup]="add_group_input">
-      <ion-item>
-        <ion-input *ngIf="add_group === true" type="text" formControlName="name" placeholder="Nom du groupe"></ion-input>
-      </ion-item>
-    </form>
     <ion-list>
-      <h2>Mes groupes</h2>
+      <ion-list-header color="primary">
+        Mes groupes
+      </ion-list-header>
       <ion-item ion-item *ngFor="let group of groups" detail-push (click)="groupsDetail(group)">
-          {{ group.name }}
+        {{ group.name }}
       </ion-item>
     </ion-list>
     <ion-list>
-      <h2>Mes invitations en cours</h2>
-      <ion-item ion-item *ngFor="let group of pending_groups" detail-push (click)="confirmAcceptGroup(group)">
-          {{ group.name }}
-      </ion-item>
-    </ion-list>
+    <ion-list-header *ngIf="pending_groups && pending_groups.length > 0" class="warning">
+      Mes invitations en cours
+    </ion-list-header>
+    <ion-item ion-item *ngFor="let group of pending_groups" detail-push (click)="confirmAcceptGroup(group)">
+      {{ group.name }}
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <button ion-button full (click)="openNewGroupModal()">+ Ajouter un groupe</button>
+</ion-footer>

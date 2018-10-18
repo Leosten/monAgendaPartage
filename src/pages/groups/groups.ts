@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { GroupsService } from '../../services/groups.service';
 import { UsersService } from '../../services/users.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { GroupDetailPage } from '../group-detail/group-detail';
 import { map } from 'rxjs/operators'
+import { GroupModalPage } from './group-modal';
 
 @Component({
   selector: 'page-groups',
@@ -27,11 +28,10 @@ export class GroupsPage {
     public usersService: UsersService,
     public formBuilder: FormBuilder,
     public afAuth: AngularFireAuth,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController
     ) {
-        this.add_group_input = formBuilder.group({
-            name: ['', Validators.required]
-        });
+
     }
 
     refreshGroups() {
@@ -50,25 +50,9 @@ export class GroupsPage {
         });
     }
 
-    newGroup() {
-        this.user = this.usersService.getCurrentUser();
-        let gname = this.add_group_input.value.name;
-        this.groupsService.addMainGroup({name: gname}).then(res => {
-            let new_group = {
-                name: gname,
-                group_id: res.key,
-                user_id: this.user.uid,
-                status: 'accepted',
-                adm: 'true'
-            };
-
-            this.groupsService.addGroup(new_group).then(result => {
-                console.log("successfully added new group");
-                this.refreshGroups();
-            }, err => {
-                console.log("error: " + err);
-            });
-        })
+    openNewGroupModal() {
+        let newGroupModal = this.modalCtrl.create(GroupModalPage);
+        newGroupModal.present();
     }
 
     confirmAcceptGroup(group) {

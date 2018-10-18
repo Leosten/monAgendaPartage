@@ -12,6 +12,7 @@ import { SettingsPage } from '../pages/settings/settings';
 import { EventsPage } from '../pages/events/events';
 import { InfoPage } from '../pages/info/info';
 import { EventModalPage } from '../pages/events/event-modal';
+import { GroupModalPage } from '../pages/groups/group-modal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -32,6 +33,11 @@ import { Facebook } from '@ionic-native/facebook'
 
 import { NgCalendarModule  } from 'ionic2-calendar';
 
+import 'moment/locale/fr';
+import moment from 'moment';
+
+moment.locale('fr')
+
 @NgModule({
   declarations: [
     MyApp,
@@ -43,6 +49,7 @@ import { NgCalendarModule  } from 'ionic2-calendar';
     SettingsPage,
     EventsPage,
     EventModalPage,
+    GroupModalPage,
     InfoPage
   ],
   imports: [
@@ -62,6 +69,7 @@ import { NgCalendarModule  } from 'ionic2-calendar';
     SettingsPage,
     EventsPage,
     EventModalPage,
+    GroupModalPage,
     InfoPage
   ],
   providers: [
