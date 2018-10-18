@@ -31,15 +31,18 @@ export class AuthService {
     signInWithGoogle(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.googlePlus.login({
-                'webClientId': '329653030004-cta6l793k4o2acvi8fp6ti015h8vcs19.apps.googleusercontent.com',
+                'webClientId': '329653030004-qa5j6budfc28sqrdrepaeo9sffklq0d2.apps.googleusercontent.com',
                 'offline': true
             }).then(res => {
+                console.log(res);
                 const googleCredential = firebase.auth.GoogleAuthProvider.credential(res.idToken);
 
                 firebase.auth().signInWithCredential(googleCredential).then(response => {
                     resolve(response)
                 });
             }, err => {
+                console.log(err);
+
                 reject(err);
             });
         });

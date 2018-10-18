@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController } from 'ionic-angular';
-import * as moment from 'moment';
+import { NavController, ModalController, ToastController } from 'ionic-angular';
 import { EventModalPage } from '../events/event-modal';
 import { EventsService } from '../../services/events.service';
 
@@ -22,7 +21,6 @@ export class HomePage {
     constructor(
         public navCtrl: NavController,
         private modalCtrl: ModalController,
-        private alertCtrl: AlertController,
         public eventsService: EventsService,
         public toast: ToastController
     ) { }

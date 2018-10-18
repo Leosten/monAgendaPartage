@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavController } from 'ionic-angular';
-import { HomePage } from '../home/home';
+import { NavController, ToastController } from 'ionic-angular';
 import { InfoPage } from '../info/info';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
@@ -18,7 +17,8 @@ export class SignupPage {
         fb: FormBuilder,
         private navCtrl: NavController,
         private auth: AuthService,
-        private usersService: UsersService
+        private usersService: UsersService,
+        private toast: ToastController
     ) {
         this.form = fb.group({
             email: ['', Validators.compose([Validators.required, Validators.email])],
