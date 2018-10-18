@@ -71,10 +71,6 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-firebase": {},
-      "cordova-plugin-googleplus": {
-        "WEB_APPLICATION_CLIENT_ID": "329653030004-qa5j6budfc28sqrdrepaeo9sffklq0d2.apps.googleusercontent.com",
-        "REVERSED_CLIENT_ID": "com.googleusercontent.apps.329653030004-cta6l793k4o2acvi8fp6ti015h8vcs19"
-      },
       "cordova-plugin-facebook4": {
         "APP_ID": "323886285056528",
         "APP_NAME": "monagendapartage",
@@ -82,6 +78,10 @@
       },
       "cordova-plugin-calendar": {
         "CALENDAR_USAGE_DESCRIPTION": " "
+      },
+      "cordova-plugin-googleplus": {
+        "WEB_APPLICATION_CLIENT_ID": "329653030004-qa5j6budfc28sqrdrepaeo9sffklq0d2.apps.googleusercontent.com",
+        "REVERSED_CLIENT_ID": "com.googleusercontent.apps.329653030004-cta6l793k4o2acvi8fp6ti015h8vcs19"
       }
     },
     "platforms": [

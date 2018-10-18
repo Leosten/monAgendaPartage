@@ -34,7 +34,6 @@ export class UsersService {
 
     searchUsers(query) : Promise<any> {
         return new Promise((resolve, reject) => {
-            let users = [];
             const usersPromise = [];
 
             usersPromise.push(this.getUsersByField('email', query));
@@ -62,8 +61,6 @@ export class UsersService {
 
     getUsersByField(field, query) : Promise<any> {
         return new Promise((resolve, reject) => {
-            let users = [];
-
             this.afDb.list(this.dbPath, ref => {
                 return ref.orderByChild(field).equalTo(query);
             }).snapshotChanges().pipe(

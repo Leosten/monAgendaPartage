@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { GroupsService } from '../../services/groups.service';
 import { EventsService } from '../../services/events.service';
 import { ModalController } from 'ionic-angular';
 import { EventModalPage } from './event-modal';
