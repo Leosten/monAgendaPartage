@@ -12,6 +12,8 @@ export class GroupDetailPage {
     public group: any;
     public search_user: string;
     public found_users: any;
+    public group_members: any;
+    public pending_members: any;
     user: any;
 
     constructor(
@@ -22,10 +24,19 @@ export class GroupDetailPage {
         private alertCtrl: AlertController
     ) {
         this.group = this.navParams.get('group');
+        this.group_members = [];
+        this.pending_members = [];
     }
 
     ionViewDidLoad() {
         this.user = this.usersService.getCurrentUser();
+        this.usersService.getGroupsMembers(this.group.group_id, 'accepted').then(res => {
+            this.group_members = res;
+        });
+
+        this.usersService.getGroupsMembers(this.group.group_id, 'pending').then(res => {
+            this.pending_members = res;
+        });
     }
 
     searchUsers(query) {

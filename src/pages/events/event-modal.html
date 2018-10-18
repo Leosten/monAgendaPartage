@@ -31,11 +31,11 @@
         </ion-select>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="!event.allDay">
         <ion-label>Début</ion-label>
         <ion-datetime displayFormat="DD/MM/YYYY HH:mm" name="startTime" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="!event.allDay">
         <ion-label>Fin</ion-label>
         <ion-datetime displayFormat="DD/MM/YYYY HH:mm" name="endTime" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
       </ion-item>

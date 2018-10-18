@@ -76,28 +76,30 @@ export class UsersService {
         });
     }
 
-    getGroupsMembers(group_id) : Promise<any> {
+    // Get les membres d'un groupe (pending ou accepted)
+    getGroupsMembers(group_id: String, status: String) : Promise<any> {
         return new Promise((resolve, reject) => {
             const usrs_promise = [];
 
             this.groupsService.getGroupsByField('group_id', group_id).then(res => {
                 for(let grp of res) {
-                    usrs_promise.push(this.getUsersByField('uid', grp.user_id));
-                }
-            });
-
-            Promise.all(usrs_promise).then(usrs => {
-                let users_res = [];
-                for(let usr of usrs) {
-                    for(let us of usr) {
-                        users_res.push(us);
+                    if (grp.status === status) {
+                        usrs_promise.push(this.getUsersByField('uid', grp.user_id));
                     }
                 }
 
-                resolve(users_res);
-            })
-            .catch(err => {
-                reject(err);
+                Promise.all(usrs_promise).then(usrs => {
+                    let users_res = [];
+                    for(let usr of usrs) {
+                        for(let us of usr) {
+                            users_res.push(us);
+                        }
+                    }
+                    resolve(users_res);
+                })
+                .catch(err => {
+                    reject(err);
+                });
             });
         });
     }
