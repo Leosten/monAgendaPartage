@@ -11,6 +11,7 @@
     <button ion-button full (click)="openNewEventModal()">+ Créer un nouvel événement</button>
     <ion-card *ngFor="let evnt of my_events">
       <ion-card-header>
+        <ion-icon right name="create" (click)="openModifyModal(evnt)"></ion-icon>
         <h1 text-center>{{ evnt.title }}</h1>
         <h2 text-center>Groupe : {{evnt.group_name }}</h2>
       </ion-card-header>

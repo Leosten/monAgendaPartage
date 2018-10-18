@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
@@ -21,6 +21,7 @@ export class LoginPage {
         private navCtrl: NavController,
         private auth: AuthService,
         private usersService: UsersService,
+        private toast: ToastController,
         fb: FormBuilder
     ) {
         this.loginForm = fb.group({
@@ -52,16 +53,26 @@ export class LoginPage {
     }
 
     loginWithGoogle() {
-        this.auth.signInWithGoogle().then((user: firebase.User) =>
+        this.auth.signInWithGoogle().then((user: firebase.User) => {
             this.searchExistingUser(user),
-                error => console.log(error.message)
-        );
+                error => {
+                    this.toast.create({
+                        message: 'Erreur de connexion Google',
+                        duration: 5000,
+                        position: 'bottom'
+                    }).present();
+                }
+        });
     }
 
     loginWithFacebook() {
         this.auth.signInWithFacebook().then((user: firebase.User) =>
             this.searchExistingUser(user),
-                error => console.log(error.message)
+                error => this.toast.create({
+                    message: 'Erreur de connexion Facebook',
+                    duration: 5000,
+                    position: 'bottom'
+                }).present();
         );
     }
 
@@ -75,9 +86,17 @@ export class LoginPage {
                 }
                 this.usersService.addUser(new_user).then(result => {
                     this.navCtrl.setRoot(InfoPage);
-                    console.log("successfully added new user");
+                    this.toast.create({
+                        message: 'Inscription réussie!',
+                        duration: 5000,
+                        position: 'bottom'
+                    }).present();
                 }, err => {
-                    console.log("error: " + err);
+                    this.toast.create({
+                        message: 'Erreur lors de l\'inscription',
+                        duration: 5000,
+                        position: 'bottom'
+                    }).present();
                 });
             } else {
                 this.navCtrl.setRoot(HomePage);

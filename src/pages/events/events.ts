@@ -46,7 +46,16 @@ export class EventsPage {
     openNewEventModal() {
         let newEventModal = this.modalCtrl.create(EventModalPage);
         newEventModal.present();
-        newEventModal.onDidDismiss(data => {
+        newEventModal.onDidDismiss(() => {
+             this.refreshEvents();
+        });
+    }
+
+    openModifyModal(evnt) {
+        let modal = this.modalCtrl.create(EventModalPage, { type: 'modify', event: evnt });
+        modal.present();
+
+        modal.onDidDismiss(() => {
              this.refreshEvents();
         });
     }

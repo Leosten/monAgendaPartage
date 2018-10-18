@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController, Platform, AlertController } from 'ionic-angular';
+import { NavParams, ViewController, Platform, AlertController, ToastController } from 'ionic-angular';
 import { EventsService } from '../../services/events.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { GroupsService } from '../../services/groups.service';
 import * as moment from 'moment';
 
@@ -31,7 +31,8 @@ export class EventModalPage {
         public formBuilder: FormBuilder,
         public groupsService: GroupsService,
         public eventsService: EventsService,
-        private alertCtrl: AlertController
+        private alertCtrl: AlertController,
+        private toast: ToastController
   ) {
         if (this.params.get('type') === 'modify') {
             this.type = 'modify';
@@ -69,7 +70,7 @@ export class EventModalPage {
                 text: 'Annuler',
                 role: 'cancel',
                 handler: () => {
-                  console.log('Cancel clicked');
+
                 }
               },
               {
@@ -89,19 +90,35 @@ export class EventModalPage {
 
     addNewEvent() {
         this.eventsService.addNewEvent(this.event).then(res => {
-            console.log('event added');
+            this.toast.create({
+                message: 'L\'événement a été ajouté',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         }, err => {
-            console.log ('error: ' + err);
+            this.toast.create({
+                message: 'Erreur lors de l\'ajout de l\'événement',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
         this.viewCtrl.dismiss();
     }
 
     modifyEvent() {
         this.eventsService.modifyEvent(this.event).then(res => {
-            console.log('event modified');
+            this.toast.create({
+                message: 'Événement modifié avec succès',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
             this.viewCtrl.dismiss();
         }, err => {
-            console.log ('error: ' + err);
+            this.toast.create({
+                message: 'Erreur de modification de l\'événement',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
     }
 
@@ -109,9 +126,17 @@ export class EventModalPage {
         this.eventsService.removeEvent(this.event)
         .then(res => {
             this.viewCtrl.dismiss();
-            console.log('event removed');
+            this.toast.create({
+                message: 'Événement supprimé avec succès',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         }, err => {
-            console.log ('error: ' + err);
+            this.toast.create({
+                message: 'Erreur lors de la suppression de l\'événement',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });;
     }
 
@@ -126,7 +151,6 @@ export class EventModalPage {
                     text: 'Annuler',
                     role: 'cancel',
                     handler: () => {
-                      console.log('Cancel clicked');
                     }
                 },
                 {
