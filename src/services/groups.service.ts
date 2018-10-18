@@ -81,8 +81,9 @@ export class GroupsService {
                 // On recupere les datas des main group pour remplir les user-groups
                 groups.map(elem => {
                     this.getMainGroupByUid(elem.group_id).valueChanges().subscribe(res => {
-                        elem.name = res[1];
-                        elem.description = res[0];
+                        let rest = res.map(group => group);
+                        elem.name = rest[1];
+                        elem.description = rest[0];
                     });
                     return elem;
                 });

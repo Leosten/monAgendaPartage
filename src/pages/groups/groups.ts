@@ -37,10 +37,22 @@ export class GroupsPage {
     refreshGroups() {
         this.groupsService.getMyGroups().then(res => {
             this.groups = res;
+        }, err => {
+            this.toast.create({
+                message: 'Erreur lors de la récupération des groupes',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
 
         this.groupsService.getPendingGroups().then(res => {
             this.pending_groups = res;
+        }, err => {
+            this.toast.create({
+                message: 'Erreur lors de la récupération des groupes',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
     }
 
@@ -53,6 +65,9 @@ export class GroupsPage {
     openNewGroupModal() {
         let newGroupModal = this.modalCtrl.create(GroupModalPage);
         newGroupModal.present();
+        newGroupModal.onDidDismiss(() => {
+             this.refreshGroups();
+        });
     }
 
     confirmAcceptGroup(group) {

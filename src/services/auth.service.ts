@@ -37,11 +37,9 @@ export class AuthService {
                 const googleCredential = firebase.auth.GoogleAuthProvider.credential(res.idToken);
 
                 firebase.auth().signInWithCredential(googleCredential).then(response => {
-                    console.log("Firebase success: " + JSON.stringify(response));
                     resolve(response)
                 });
             }, err => {
-                console.error("Error: ", err)
                 reject(err);
             });
         });
@@ -53,10 +51,8 @@ export class AuthService {
                 const facebookCredential = firebase.auth.FacebookAuthProvider.credential(response.authResponse.accessToken);
 
                 firebase.auth().signInWithCredential(facebookCredential).then( success => {
-                    console.log("Firebase success: " + JSON.stringify(success));
                     resolve(success);
                 }).catch((error) => {
-                    console.log(error)
                     reject(error);
                 });
             }).catch((error) => {
@@ -66,7 +62,6 @@ export class AuthService {
     }
 
     signUp(credentials) {
-
         return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
     }
 
