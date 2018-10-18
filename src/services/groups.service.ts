@@ -50,7 +50,6 @@ export class GroupsService {
     getPendingGroups() : Promise<any> {
         return new Promise((resolve, reject) => {
             this.getGroupsByField('user_id', this.user.uid).then(grps => {
-                console.log(grps);
                 let groups_res = [];
                 if (grps.length !== 0) {
                     for(let grp of grps) {
@@ -78,9 +77,22 @@ export class GroupsService {
                 )
             ).subscribe(groups_res => {
                 groups = groups_res.map(group => group);
+
+                // On recupere les datas des main group pour remplir les user-groups
+                groups.map(elem => {
+                    this.getMainGroupByUid(elem.group_id).valueChanges().subscribe(res => {
+                        elem.name = res[1];
+                        elem.description = res[0];
+                    });
+                    return elem;
+                });
                 resolve(groups);
             });
         });
+    }
+
+    getMainGroupByUid(guid) {
+        return this.afDb.list('/groups/' + guid);
     }
 
     addMainGroup(main_group) {

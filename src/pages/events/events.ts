@@ -31,8 +31,13 @@ export class EventsPage {
         this.eventsService.getMyEvents().then(res => {
             // Format de date pour l'affichage
              this.my_events = res.map(ev => {
-                ev.startTime = moment(ev.startTime).format();
-                ev.endTime = moment(ev.endTime).format();
+                 if (ev.allDay) {
+                    ev.startTime = moment(ev.startTime).format('LL');
+
+                 } else {
+                    ev.startTime = moment(ev.startTime).format('LLLL');
+                }
+                ev.endTime = moment(ev.endTime).format('LLLL');
                 return ev;
             });
         });

@@ -15,7 +15,9 @@
         <h2 text-center>Groupe : {{evnt.group_name }}</h2>
       </ion-card-header>
       <ion-card-content>
-        <p text-center>Début : {{ evnt.startTime }}<br> Fin : {{ evnt.endTime }}</p>
+        <p text-center *ngIf="!evnt.allDay">Début : {{ evnt.startTime }}<br> Fin : {{ evnt.endTime }}</p>
+        <p text-center *ngIf="evnt.allDay">Toute la journée</p>
+        <p text-center *ngIf="evnt.allDay">{{ evnt.startTime }}</p>
         <p>{{ evnt.notes }}</p>
       </ion-card-content>
     </ion-card>
