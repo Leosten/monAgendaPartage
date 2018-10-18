@@ -46,11 +46,19 @@ export class SignupPage {
         }
 
         this.usersService.addUser(new_user).then(result => {
-            console.log("successfully added new user");
+            this.toast.create({
+                message: 'Inscription réussie!',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
             // On renvoit vers la page des infos avant tout
             this.navCtrl.setRoot(InfoPage);
         }, err => {
-            console.log("error: " + err);
+            this.toast.create({
+                message: 'Erreur lors de l\'inscription',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
     }
 }
