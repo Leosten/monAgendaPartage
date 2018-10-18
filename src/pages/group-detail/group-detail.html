@@ -8,38 +8,55 @@
 </ion-header>
 
 <ion-content>
-    <ion-card>
+    <ion-card *ngIf="group.description">
         <ion-card-content>
             {{group.description}}
         </ion-card-content>
     </ion-card>
 
+    <ion-card *ngIf="group_members.length > 0">
+            <ion-card-header color="primary">
+                Membres du groupe
+            </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <button ion-item ion-item *ngFor="let member of group_members">
+                  <ion-icon name="md-person" item-start></ion-icon>
+                  {{(member.display_name || 'Pas de pseudo')}} | {{member.email}}
+                </button>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 
-<ion-card>
-  <ion-card-header>
-    <ion-item>
-    <ion-label>Chercher un utilisateur</ion-label>
-        <ion-input [(ngModel)]="search_user" type="text" placeholder="Pseudo, email ..." (keyup.enter)="searchUsers(search_user)"></ion-input>
-    </ion-item>
-  </ion-card-header>
+    <ion-card *ngIf="pending_members.length > 0">
+            <ion-card-header class="warning">
+                Invitations en attente
+            </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <button ion-item ion-item *ngFor="let member of pending_members">
+                  <ion-icon name="md-person" item-start></ion-icon>
+                  {{(member.display_name || 'Pas de pseudo')}} | {{member.email}}
+                </button>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 
-  <ion-list>
-    <button ion-item ion-item *ngFor="let usr of found_users" (click)="confirmAddUserToGroup(usr)">
-      <ion-icon name="md-person-add" item-start></ion-icon>
-      {{(usr.display_name || 'Pas de pseudo')}} | {{usr.email}}
-    </button>
-  </ion-list>
-</ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-item>
+        <ion-label color="secondary">Chercher un utilisateur</ion-label>
+            <ion-input [(ngModel)]="search_user" type="text" placeholder="Pseudo, email ..." (keyup.enter)="searchUsers(search_user)"></ion-input>
+        </ion-item>
+      </ion-card-header>
 
-
-<!--   <ion-list>
-    <button ion-item *ngFor="let group of (groups | async)" (click)="groupsDetail(group)">
-      {{ group.name }}
-    </button>
-  </ion-list> -->
-  <!-- <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div> -->
+      <ion-list>
+        <button ion-item ion-item *ngFor="let usr of found_users" (click)="confirmAddUserToGroup(usr)">
+          <ion-icon name="md-person-add" item-start></ion-icon>
+          {{(usr.display_name || 'Pas de pseudo')}} | {{usr.email}}
+        </button>
+      </ion-list>
+    </ion-card>
 </ion-content>
 
 <ion-footer>
