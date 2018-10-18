@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ModalController, ToastController } from 'ionic-angular';
 import { GroupsService } from '../../services/groups.service';
 import { UsersService } from '../../services/users.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { GroupDetailPage } from '../group-detail/group-detail';
-import { map } from 'rxjs/operators'
 import { GroupModalPage } from './group-modal';
 
 @Component({
@@ -29,7 +28,8 @@ export class GroupsPage {
     public formBuilder: FormBuilder,
     public afAuth: AngularFireAuth,
     private alertCtrl: AlertController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private toast: ToastController
     ) {
 
     }

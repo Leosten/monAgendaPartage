@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { UsersService } from '../../services/users.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 @IonicPage()
@@ -16,7 +15,6 @@ export class InfoPage {
   constructor(
       public navCtrl: NavController,
       public navParams: NavParams,
-      private usersService: UsersService,
       public afAuth: AngularFireAuth,
       fb: FormBuilder
     ) {

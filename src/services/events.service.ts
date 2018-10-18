@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-import { GooglePlus } from '@ionic-native/google-plus';
-import { Facebook } from '@ionic-native/facebook'
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { GroupsService } from './groups.service';
 import { map } from 'rxjs/operators'

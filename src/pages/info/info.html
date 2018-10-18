@@ -10,15 +10,15 @@
 
 <ion-content padding>
     <form (submit)="editInfo()" [formGroup]="info_form">
-      <ion-item>
-        <ion-input type="text" formControlName="display_name" placeholder="Pseudonyme"></ion-input>
-      </ion-item>
+        <ion-item>
+            <ion-input type="text" formControlName="display_name" placeholder="Pseudonyme"></ion-input>
+        </ion-item>
     </form>
     <button ion-button>Continuer</button>
-    <ion-item item-start>
+    <ion-item *ngIf="user !== null" item-start>
         <p>{{ user.display_name }}</p>
-      </ion-item>
-      <ion-item>
+    </ion-item>
+    <ion-item *ngIf="user !== null">
         <p>{{ user.email }}</p>
-      </ion-item>
+    </ion-item>
 </ion-content>
