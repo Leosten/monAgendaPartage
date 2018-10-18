@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController } from 'ionic-angular';
+import { NavController, ModalController, AlertController, ToastController } from 'ionic-angular';
 import * as moment from 'moment';
 import { EventModalPage } from '../events/event-modal';
 import { EventsService } from '../../services/events.service';
@@ -23,7 +23,8 @@ export class HomePage {
         public navCtrl: NavController,
         private modalCtrl: ModalController,
         private alertCtrl: AlertController,
-        public eventsService: EventsService
+        public eventsService: EventsService,
+        public toast: ToastController
     ) { }
 
     addEvent() {
@@ -45,6 +46,12 @@ export class HomePage {
     refreshEvents() {
         this.eventsService.getMyEvents().then(res => {
             this.eventSource = res;
+        }, err => {
+            this.toast.create({
+                message: 'Erreur lors de la récupération des événements',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
     }
 

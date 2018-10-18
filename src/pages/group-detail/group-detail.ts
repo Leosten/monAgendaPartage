@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { UsersService } from '../../services/users.service';
 import { GroupsService } from '../../services/groups.service';
 
@@ -12,8 +12,8 @@ export class GroupDetailPage {
     public group: any;
     public search_user: string;
     public found_users: any;
-    public group_members: any;
-    public pending_members: any;
+    public group_members = [];
+    public pending_members = [];
     user: any;
 
     constructor(
@@ -21,27 +21,49 @@ export class GroupDetailPage {
         public navParams: NavParams,
         private usersService: UsersService,
         public groupsService: GroupsService,
-        private alertCtrl: AlertController
+        private alertCtrl: AlertController,
+        private toast: ToastController
     ) {
         this.group = this.navParams.get('group');
-        this.group_members = [];
-        this.pending_members = [];
     }
 
-    ionViewDidLoad() {
+    ionViewWillEnter() {
         this.user = this.usersService.getCurrentUser();
+
+        this.refreshMembers();
+    }
+
+    refreshMembers() {
         this.usersService.getGroupsMembers(this.group.group_id, 'accepted').then(res => {
             this.group_members = res;
+        }).catch(err => {
+            this.toast.create({
+                message: 'Erreur lors de la récupération des membres',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
 
         this.usersService.getGroupsMembers(this.group.group_id, 'pending').then(res => {
             this.pending_members = res;
+        }).catch(err => {
+            this.toast.create({
+                message: 'Erreur lors de la récupération des membres',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
     }
 
     searchUsers(query) {
         this.usersService.searchUsers(query).then(res => {
             this.found_users = res;
+        }).catch(err => {
+            this.toast.create({
+                message: 'Erreur lors de la recherche d\'utilisateur',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
     }
 
@@ -52,22 +74,38 @@ export class GroupDetailPage {
             group_id: this.group.group_id,
             status: 'pending',
             adm: adm
-
         };
 
         this.groupsService.addGroup(new_group).then(result => {
-            console.log("successfully added new group");
+            this.toast.create({
+                message: 'L\'utilisateur a été invité',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
+            this.refreshMembers();
         }, err => {
-            console.log("error: " + err);
+            this.toast.create({
+                message: 'Erreur lors de l\'invitation',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
     }
 
     removeGroup() {
         this.groupsService.removeGroup(this.group).then(result => {
-            console.log("successfully removed group");
+            this.toast.create({
+                message: 'Vous avez quitté le groupe' + this.group.name,
+                duration: 5000,
+                position: 'bottom'
+            }).present();
             this.navCtrl.pop();
         }, err => {
-            console.log("error: " + err);
+            this.toast.create({
+                message: 'Erreur lors de la suppression du groupe',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
     }
 
@@ -88,7 +126,7 @@ export class GroupDetailPage {
                 text: 'Annuler',
                 role: 'cancel',
                 handler: () => {
-                  console.log('Cancel clicked');
+
                 }
               },
               {
@@ -116,7 +154,7 @@ export class GroupDetailPage {
                 text: 'Annuler',
                 role: 'cancel',
                 handler: () => {
-                  console.log('Cancel clicked');
+
                 }
               },
               {

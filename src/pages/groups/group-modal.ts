@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController, Platform, AlertController } from 'ionic-angular';
+import { NavParams, ViewController, Platform, AlertController, ToastController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 import { GroupsService } from '../../services/groups.service';
 import { UsersService } from '../../services/users.service';
@@ -23,7 +23,8 @@ export class GroupModalPage {
         public formBuilder: FormBuilder,
         public groupsService: GroupsService,
         private alertCtrl: AlertController,
-        public usersService: UsersService
+        public usersService: UsersService,
+        public toast: ToastController
     ) {
         this.add_group_input = formBuilder.group({
             name: ['', Validators.required],
@@ -49,10 +50,18 @@ export class GroupModalPage {
             };
 
             this.groupsService.addGroup(new_group).then(result => {
-                console.log('group added');
+                this.toast.create({
+                    message: 'Le groupe a été créé',
+                    duration: 5000,
+                    position: 'bottom'
+                }).present();
                 this.viewCtrl.dismiss();
             }, err => {
-                console.log("error: " + err);
+                this.toast.create({
+                    message: 'Erreur lors de la création du groupe',
+                    duration: 5000,
+                    position: 'bottom'
+                }).present();
             });
         });
     };
@@ -66,7 +75,7 @@ export class GroupModalPage {
                     text: 'Annuler',
                     role: 'cancel',
                     handler: () => {
-                      console.log('Cancel clicked');
+
                     }
                 },
                 {
