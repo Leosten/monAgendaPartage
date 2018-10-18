@@ -53,27 +53,32 @@ export class LoginPage {
     }
 
     loginWithGoogle() {
+        console.log('entered login');
         this.auth.signInWithGoogle().then((user: firebase.User) => {
-            this.searchExistingUser(user),
-                error => {
-                    this.toast.create({
-                        message: 'Erreur de connexion Google',
-                        duration: 5000,
-                        position: 'bottom'
-                    }).present();
-                }
+             console.log(user);
+            this.searchExistingUser(user);
+        }, error => {
+            console.log(error);
+            this.toast.create({
+                message: 'Erreur de connexion Google',
+                duration: 5000,
+                position: 'bottom'
+            }).present();
         });
+
     }
 
     loginWithFacebook() {
-        this.auth.signInWithFacebook().then((user: firebase.User) =>
+        this.auth.signInWithFacebook().then((user: firebase.User) => {
             this.searchExistingUser(user),
-                error => this.toast.create({
+                error => {
+                    this.toast.create({
                     message: 'Erreur de connexion Facebook',
                     duration: 5000,
                     position: 'bottom'
                 }).present();
-        );
+            }
+        });
     }
 
     searchExistingUser(user) {
