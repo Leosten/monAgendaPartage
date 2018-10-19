@@ -15,13 +15,21 @@
       },
       "oauth_client": [
         {
+          "client_id": "329653030004-thomenbj18o8bveolr7s0qm840unc6ra.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "monagendapartage.etna",
+            "certificate_hash": "194fe3f0ab3e846894d6712c916ded71ada1fec6"
+          }
+        },
+        {
           "client_id": "329653030004-qa5j6budfc28sqrdrepaeo9sffklq0d2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "Fi4elZWFQ8HHBIINvtrYJZ9n"
+          "current_key": "AIzaSyDYyIWJweruuG1Da0jYVLW9mq035gXSIAY"
         }
       ],
       "services": {
@@ -29,8 +37,20 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329653030004-qa5j6budfc28sqrdrepaeo9sffklq0d2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "329653030004-cta6l793k4o2acvi8fp6ti015h8vcs19.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "monagendapartage.package"
+              }
+            }
+          ]
         },
         "ads_service": {
           "status": 2
