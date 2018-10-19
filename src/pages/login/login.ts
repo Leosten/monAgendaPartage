@@ -80,7 +80,6 @@ export class LoginPage {
 
     searchExistingUser(user) {
         this.usersService.getUsersByField('uid', user.uid).then(res => {
-            console.log(res);
             if (res.length === 0) {
                 let new_user = {
                     uid: user.uid,
