@@ -1,4 +1,15 @@
 page-home {
+    $colors: (
+      primary:    #ee48ff,
+      secondary:  #32db64,
+      danger:     #f53d3d,
+      light:      #f4f4f4,
+      dark:       #222
+    );
+
+    .button-clear-ios {
+    color: #ee48ff !important;
+    }
     .custom-event a {
         color: #fff !important;
         font-weight: bold;
