@@ -55,7 +55,16 @@ moment.locale('fr')
   imports: [
     NgCalendarModule,
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {}, {
+      links: [
+        { component: HomePage, name: 'Home', segment: 'home' },
+        { component: LoginPage, name: 'Login', segment: 'login' },
+        { component: EventsPage, name: 'Events', segment: 'events' },
+        { component: GroupsPage, name: 'Groups', segment: 'groups' },
+        { component: InfoPage, name: 'Info', segment: 'info' },
+        { component: SettingsPage, name: 'Settings', segment: 'settings' }
+      ]
+    }),
     AngularFireModule.initializeApp(FirebaseConfig.fire),
   ],
   bootstrap: [IonicApp],
