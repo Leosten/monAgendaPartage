@@ -80,6 +80,28 @@ export class EventsService {
         });
     }
 
+    getEventsByGroup(group_id) : Promise<any> {
+        return new Promise((resolve, reject) => {
+            let evnts = [];
+
+            this.afDb.list(this.dbPath, ref => {
+                return ref.orderByChild('group_id').equalTo(group_id);
+            }).snapshotChanges().pipe(
+                map(actions =>
+                    actions.map(a => ({ key: a.key, ...a.payload.val() }))
+                )
+            ).subscribe(evnts_res => {
+                evnts = evnts_res.map(evnt => {
+                    evnt['startTime'] = new Date(evnt['startTime']);
+                    evnt['endTime'] = new Date(evnt['endTime']);
+                    return evnt;
+                });
+
+                resolve(evnts);
+            });
+        });
+    }
+
     addNewEvent(evnt: any) {
         return this.events.push(evnt);
     }
@@ -90,7 +112,6 @@ export class EventsService {
     }
 
     removeEvent(event) {
-        // TODO: remove only if adm is true in group-events
         return this.afDb.object(this.dbPath + '/' + event.key).remove();
     }
 }
