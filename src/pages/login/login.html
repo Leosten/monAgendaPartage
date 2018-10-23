@@ -3,29 +3,19 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Log in</ion-title>
+        <ion-title color="primary">Mon agenda partagé</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
     <form (ngSubmit)="login()" [formGroup]="loginForm">
         <ion-list inset>
-
             <ion-item >
                 <ion-input type="text" placeholder="Email" formControlName="email"></ion-input>
             </ion-item>
-
-   <!--          <div >
-                <div>It should be a valid email</div>
-            </div> -->
-
             <ion-item>
                 <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
             </ion-item>
-<!--
-            <div >
-                <div >It should be at least 5 characters</div>
-            </div> -->
         </ion-list>
 
         <div padding-horizontal>
@@ -33,12 +23,7 @@
 
             <button ion-button full type="submit" [disabled]="!loginForm.valid">Log in</button>
             <div class="login-footer">
-                <p>
-                    <a href="#">Forgot password?</a>
-                    If you're a new user, please sign up.
-                </p>
             </div>
-
             <ion-list>
                 <button ion-button icon-left block clear (click)="loginWithGoogle()">
                     <ion-icon name="logo-google"></ion-icon>

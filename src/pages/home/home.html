@@ -15,13 +15,22 @@
 </ion-header>
 
 <ion-content>
-<calendar [eventSource]="eventSource"
-        [calendarMode]="calendar.mode"
-        [currentDate]="calendar.currentDate"
-        (onEventSelected)="onEventSelected($event)"
-        (onTitleChanged)="onViewTitleChanged($event)"
-        (onTimeSelected)="onTimeSelected($event)"
-        step="30"
-        class="calendar">
-      </calendar>
+  <ion-item>
+<!--         <ion-label>Filtrer par groupes...</ion-label> -->
+        <ion-select [(ngModel)]="selected_group" (ngModelChange)="refreshEvents()" name="group_id" submitText="OK" cancelText="Annuler">
+          <ion-option value="Tous les groupes">Tous les groupes</ion-option>
+          <ion-option *ngFor="let grp of groups" value="{{grp.group_id}}">{{grp.name}}</ion-option>
+        </ion-select>
+  </ion-item>
+  <calendar
+    [eventSource]="eventSource"
+    [calendarMode]="calendar.mode"
+    [currentDate]="calendar.currentDate"
+    (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)"
+    step="30"
+    class="calendar"
+  >
+  </calendar>
 </ion-content>
