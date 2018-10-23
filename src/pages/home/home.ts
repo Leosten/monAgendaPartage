@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, ToastController } from 'ionic-angular';
+import { NavController, ModalController, ToastController, IonicPage } from 'ionic-angular';
 import { EventModalPage } from '../events/event-modal';
 import { EventsService } from '../../services/events.service';
 import { GroupsService } from '../../services/groups.service';
 
+@IonicPage({
+    name: 'home-page',
+    segment: 'dash'
+
+})
 @Component({
     selector: 'page-home',
-    templateUrl: 'home.html'
+    templateUrl: 'home.html',
+
 })
 
 export class HomePage {
