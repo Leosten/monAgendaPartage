@@ -58,6 +58,23 @@ export class EventModalPage {
     }
 
     addNewEventConfirm() {
+        if(this.event.group_id === "") {
+            this.toast.create({
+                message: 'Le groupe ne peut pas être vide',
+                duration: 3000,
+                position: 'bottom'
+            }).present();
+            return;
+        }
+
+        if(this.event.title === "") {
+            this.toast.create({
+                message: 'Le nom ne peut pas être vide',
+                duration: 3000,
+                position: 'bottom'
+            }).present();
+            return;
+        }
         let msg = 'Créer cet événement?';
         if (this.type === 'modify') {
             msg = 'Modifier cet événement?'
