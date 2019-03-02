@@ -34,15 +34,14 @@ export class AuthService {
                 'webClientId': '329653030004-qa5j6budfc28sqrdrepaeo9sffklq0d2.apps.googleusercontent.com',
                 'offline': true
             }).then(res => {
-                console.log(res);
                 const googleCredential = firebase.auth.GoogleAuthProvider.credential(res.idToken);
 
                 firebase.auth().signInWithCredential(googleCredential).then(response => {
                     resolve(response)
+                }, err => {
+                    reject(err);
                 });
             }, err => {
-                console.log(err);
-
                 reject(err);
             });
         });
