@@ -56,6 +56,7 @@ export class LoginPage {
         this.auth.signInWithGoogle().then((user: firebase.User) => {
             this.searchExistingUser(user);
         }, error => {
+            console.log(error);
             this.toast.create({
                 message: 'Erreur de connexion Google',
                 duration: 5000,
