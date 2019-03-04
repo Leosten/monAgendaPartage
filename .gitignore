@@ -34,7 +34,6 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 
-config.ts
 config.xml
 build-extras.gradle
 google-services.json
