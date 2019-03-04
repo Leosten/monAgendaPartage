@@ -33,3 +33,9 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+
+config.ts
+config.xml
+build-extras.gradle
+google-services.json
+GoogleService-Info.plist
