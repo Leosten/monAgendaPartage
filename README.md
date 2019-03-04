@@ -1,1 +1,1 @@
-MOB5 mon agenda partagé
+Application d'agenda partagé avec ionic 3 et firebase
