@@ -39,3 +39,4 @@ build-extras.gradle
 google-services.json
 GoogleService-Info.plist
 config.ts
+oldgoogle-services.json
